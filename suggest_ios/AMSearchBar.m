@@ -41,6 +41,7 @@
 
 - (void) search:(NSString *)searchSubstring;
 - (void) cancelSearch;
+- (void) cancelButtonPressed:(id)sender;
 
 @end
 
@@ -272,6 +273,14 @@ static const CGFloat kBGInsetRight  =  1.0f;
                              self.cancelButton.frame = buttonRect;
                          }];
     }
+}
+
+#pragma mark - 
+#pragma mark UIControl action callbacks
+
+- (void) cancelButtonPressed:(id)sender
+{
+    [self cancelSearch];
 }
 
 
