@@ -16,6 +16,10 @@
 		7C653BB51653BF1300957E49 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C653BB41653BF1300957E49 /* Default.png */; };
 		7C653BB71653BF1300957E49 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C653BB61653BF1300957E49 /* Default@2x.png */; };
 		7C653BB91653BF1300957E49 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C653BB81653BF1300957E49 /* Default-568h@2x.png */; };
+		7C653BCC1653C5D200957E49 /* AMMacros.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C653BC51653C5D200957E49 /* AMMacros.m */; };
+		7C653BCD1653C5D200957E49 /* AMMarkupParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C653BC71653C5D200957E49 /* AMMarkupParser.m */; };
+		7C653BCE1653C5D200957E49 /* AMSearchRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C653BC91653C5D200957E49 /* AMSearchRequest.m */; };
+		7C653BCF1653C5D200957E49 /* AMSearchResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C653BCB1653C5D200957E49 /* AMSearchResult.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +36,14 @@
 		7C653BB41653BF1300957E49 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		7C653BB61653BF1300957E49 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		7C653BB81653BF1300957E49 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		7C653BC41653C5D200957E49 /* AMMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMMacros.h; sourceTree = "<group>"; };
+		7C653BC51653C5D200957E49 /* AMMacros.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMMacros.m; sourceTree = "<group>"; };
+		7C653BC61653C5D200957E49 /* AMMarkupParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMMarkupParser.h; sourceTree = "<group>"; };
+		7C653BC71653C5D200957E49 /* AMMarkupParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMMarkupParser.m; sourceTree = "<group>"; };
+		7C653BC81653C5D200957E49 /* AMSearchRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMSearchRequest.h; sourceTree = "<group>"; };
+		7C653BC91653C5D200957E49 /* AMSearchRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMSearchRequest.m; sourceTree = "<group>"; };
+		7C653BCA1653C5D200957E49 /* AMSearchResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMSearchResult.h; sourceTree = "<group>"; };
+		7C653BCB1653C5D200957E49 /* AMSearchResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMSearchResult.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +63,7 @@
 		7C653B931653BF1300957E49 = {
 			isa = PBXGroup;
 			children = (
+				7C653BC31653C5D200957E49 /* suggest_ios */,
 				7C653BA81653BF1300957E49 /* Sugges.ios Example */,
 				7C653BA11653BF1300957E49 /* Frameworks */,
 				7C653B9F1653BF1300957E49 /* Products */,
@@ -98,6 +111,22 @@
 				7C653BB81653BF1300957E49 /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		7C653BC31653C5D200957E49 /* suggest_ios */ = {
+			isa = PBXGroup;
+			children = (
+				7C653BC41653C5D200957E49 /* AMMacros.h */,
+				7C653BC51653C5D200957E49 /* AMMacros.m */,
+				7C653BC61653C5D200957E49 /* AMMarkupParser.h */,
+				7C653BC71653C5D200957E49 /* AMMarkupParser.m */,
+				7C653BC81653C5D200957E49 /* AMSearchRequest.h */,
+				7C653BC91653C5D200957E49 /* AMSearchRequest.m */,
+				7C653BCA1653C5D200957E49 /* AMSearchResult.h */,
+				7C653BCB1653C5D200957E49 /* AMSearchResult.m */,
+			);
+			name = suggest_ios;
+			path = ../suggest_ios;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -168,6 +197,10 @@
 			files = (
 				7C653BAF1653BF1300957E49 /* main.m in Sources */,
 				7C653BB31653BF1300957E49 /* AMAppDelegate.m in Sources */,
+				7C653BCC1653C5D200957E49 /* AMMacros.m in Sources */,
+				7C653BCD1653C5D200957E49 /* AMMarkupParser.m in Sources */,
+				7C653BCE1653C5D200957E49 /* AMSearchRequest.m in Sources */,
+				7C653BCF1653C5D200957E49 /* AMSearchResult.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,6 +313,7 @@
 				7C653BBE1653BF1300957E49 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
