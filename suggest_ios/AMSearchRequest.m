@@ -30,6 +30,7 @@
 
 #import "AMSearchRequest.h"
 #import "AMSearchResult.h"
+#import "AMMacros.h"
 
 
 @interface AMSearchRequest ()
