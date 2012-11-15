@@ -36,11 +36,12 @@ static const int kMarginX = 3;
 static const int kMarginY = 0;
 
 
-- (id) initWithFrame:(CGRect)frame
+- (id) initWithFrame:(CGRect)frame style:(AMSearchBarFieldStyle)fs
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.borderStyle = UITextBorderStyleNone;
+        self.fieldStyle = fs;
+
         self.font = [UIFont systemFontOfSize:15];
         self.keyboardAppearance = UIKeyboardAppearanceDefault;
         self.keyboardType = UIKeyboardTypeASCIICapable;
@@ -64,19 +65,51 @@ static const int kMarginY = 0;
 }
 
 
+- (void) setFieldStyle:(AMSearchBarFieldStyle)fs
+{
+    switch (fs) {
+        case AMSearchBarFieldStyleOval:
+            self.borderStyle = UITextBorderStyleNone;
+            self.background = [[UIImage imageNamed:@"search_bar_border"] resizableImageWithCapInsets:UIEdgeInsetsMake(15, 17, 15, 17)];
+            break;
+
+        case AMSearchBarFieldStyleRoundedRect:
+            self.borderStyle = UITextBorderStyleRoundedRect;
+            self.background = nil;
+            self.background = [[UIImage imageNamed:@"textfield_bar_border"] resizableImageWithCapInsets:UIEdgeInsetsMake(15, 17, 15, 17)];
+            break;
+
+        case AMSearchBarFieldStyleCustom:
+            self.background = nil;
+            self.borderStyle = UITextBorderStyleNone;
+
+        default:
+            break;
+    }
+
+    if (self.superview)
+        [self setNeedsDisplay];
+}
+
+
 - (CGRect) textRectForBounds:(CGRect)bounds
 {
     CGRect inset = [super textRectForBounds:bounds];
-    inset.origin.y += kMarginY;
-    inset.origin.x += kMarginX;
+    if (self.fieldStyle == AMSearchBarFieldStyleOval) {
+        inset.origin.y += kMarginY;
+        inset.origin.x += kMarginX;
+    }
     return inset;
 }
+
 
 - (CGRect) editingRectForBounds:(CGRect)bounds
 {
     CGRect inset = [super editingRectForBounds:bounds];
-    inset.origin.y += kMarginY;
-    inset.origin.x += kMarginX;
+    if (self.fieldStyle == AMSearchBarFieldStyleOval) {
+        inset.origin.y += kMarginY;
+        inset.origin.x += kMarginX;
+    }
     return inset;
 }
 
