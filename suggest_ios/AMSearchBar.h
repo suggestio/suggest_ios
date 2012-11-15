@@ -30,6 +30,7 @@
 
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
+#import "AMSearchField.h"
 
 @class AMSearchBar;
 
@@ -130,12 +131,6 @@ typedef void (^SearchCompletionBlock)(NSArray *items, NSError *error);
 @end
 
 
-typedef enum {
-    AMSearchBarFieldStyleOval           = 0,
-    AMSearchBarFieldStyleRoundedRect    = 1,
-    AMSearchBarFieldStyleCustom         = 2
-} AMSearchBarFieldStyle;
-
 /**
  * Displays a simple search bar for Suggest.io search.
  *
@@ -146,10 +141,6 @@ typedef enum {
  */
 @interface AMSearchBar : UIView <UITextFieldDelegate>
 
-/**
- * Search textfield visual style
- */
-@property (nonatomic, assign, setter = setFieldStyle:) AMSearchBarFieldStyle fieldStyle;
 
 /**
  * (read-only) reference to the search textfield
@@ -185,7 +176,7 @@ typedef enum {
 /**
  * The designated initializer for AMSearchBar
  */
-- (id) init;
+- (id) initWithStyle:(AMSearchBarFieldStyle)fs;
 
 /**
  * Toggles the search bar to show/hide the activity indicator

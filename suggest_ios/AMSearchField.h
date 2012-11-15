@@ -30,7 +30,17 @@
 
 #import <UIKit/UIKit.h>
 
+typedef enum {
+    AMSearchBarFieldStyleOval           = 0,
+    AMSearchBarFieldStyleRoundedRect    = 1,
+    AMSearchBarFieldStyleCustom         = 2
+} AMSearchBarFieldStyle;
+
 @interface AMSearchField : UITextField
+
+@property (assign, nonatomic, setter = setFieldStyle:) AMSearchBarFieldStyle fieldStyle;
+
+- (id) initWithFrame:(CGRect)frame style:(AMSearchBarFieldStyle)fs;
 
 @end
 
