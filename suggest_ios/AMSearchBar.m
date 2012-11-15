@@ -29,7 +29,6 @@
 // THE SOFTWARE.
 
 #import "AMSearchBar.h"
-#import "AMSearchField.h"
 #import "AMMacros.h"
 
 @interface AMSearchBar ()
@@ -56,7 +55,7 @@ static const CGFloat kBGInsetBottom = 21.0f;
 static const CGFloat kBGInsetRight  =  1.0f;
 
 
-- (id)init
+- (id) initWithStyle:(AMSearchBarFieldStyle)fs
 {
     self = [super initWithFrame:CGRectMake(0, 0, 320, 44)];
     if (self) {
@@ -84,7 +83,7 @@ static const CGFloat kBGInsetRight  =  1.0f;
                         forControlEvents:UIControlEventTouchUpInside];
         }
 
-        AMSearchField *se = [[AMSearchField alloc] initWithFrame:fieldRect];
+        AMSearchField *se = [[AMSearchField alloc] initWithFrame:fieldRect style:fs];
         se.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         self.searchField = se, se = nil;
         self.searchField.enabled = YES;
@@ -155,35 +154,6 @@ static const CGFloat kBGInsetRight  =  1.0f;
         self.searchField.leftView = iv;
         self.searchField.leftViewMode = UITextFieldViewModeAlways;
     }
-}
-
-
-#pragma mark - 
-#pragma mark Custom property accessors
-
-- (void) setFieldStyle:(AMSearchBarFieldStyle)fieldStyle
-{
-    switch (fieldStyle) {
-        case AMSearchBarFieldStyleOval:
-            self.searchField.borderStyle = UITextBorderStyleNone;
-            self.searchField.background = [[UIImage imageNamed:@"search_bar_border"] resizableImageWithCapInsets:UIEdgeInsetsMake(15, 17, 15, 17)];
-            break;
-
-        case AMSearchBarFieldStyleRoundedRect:
-            self.searchField.borderStyle = UITextBorderStyleRoundedRect;
-            self.searchField.background = nil;
-            self.searchField.background = [[UIImage imageNamed:@"textfield_bar_border"] resizableImageWithCapInsets:UIEdgeInsetsMake(15, 17, 15, 17)];
-            break;
-
-        case AMSearchBarFieldStyleCustom:
-            self.searchField.background = nil;
-            self.searchField.borderStyle = UITextBorderStyleNone;
-
-        default:
-            break;
-    }
-    [self.searchField setNeedsDisplay];
-    _fieldStyle = fieldStyle;
 }
 
 
