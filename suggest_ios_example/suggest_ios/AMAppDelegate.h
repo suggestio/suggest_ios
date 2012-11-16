@@ -3,12 +3,12 @@
 //  suggest_ios
 //
 //  Created by Andrey Yurkevich on 11/14/12.
-//  Copyright (c) 2012 CBCA. All rights reserved.
+//  Copyright (c) 2012 Suggest.io. All rights reserved.
 //
 
 // This code is distributed under the terms and conditions of the MIT license.
 
-// Copyright (c) 2012 CBCA
+// Copyright (c) 2012 Suggest.io
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
