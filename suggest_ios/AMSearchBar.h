@@ -95,6 +95,15 @@ typedef void (^SearchCompletionBlock)(NSArray *items, NSError *error);
  * @return The domain name where the search should be performed
  */
 - (NSString *)searchBarQueryDomain:(AMSearchBar *)searchBar;
+
+/**
+ * Notifies the delegate thet the search bar has been dismissed.
+ *
+ * @param searchBar The instance of AMSearchBar that has been dismissed
+ *
+ */
+- (void)searchBarWasDismissed:(AMSearchBar *)searchBar;
+
 @optional
 /**
  * Called when the search is started
