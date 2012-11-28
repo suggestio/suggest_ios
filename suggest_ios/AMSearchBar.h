@@ -185,7 +185,7 @@ typedef void (^SearchCompletionBlock)(NSArray *items, NSError *error);
 /**
  * The designated initializer for AMSearchBar
  */
-- (id) initWithStyle:(AMSearchBarFieldStyle)fs;
+- (id) initWithStyle:(AMSearchBarFieldStyle)fs rect:(CGRect)rect;
 
 /**
  * Toggles the search bar to show/hide the activity indicator

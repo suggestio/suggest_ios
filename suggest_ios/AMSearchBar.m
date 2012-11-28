@@ -55,9 +55,16 @@ static const CGFloat kBGInsetBottom = 21.0f;
 static const CGFloat kBGInsetRight  =  1.0f;
 
 
-- (id) initWithStyle:(AMSearchBarFieldStyle)fs
+- (id) initWithStyle:(AMSearchBarFieldStyle)fs rect:(CGRect)rect
 {
-    self = [super initWithFrame:CGRectMake(0, 0, 320, 44)];
+    CGRect initRect;
+    if (CGRectEqualToRect(rect, CGRectZero))
+        initRect = (CGRectMake(0, 0, 320, 44));
+    else
+        initRect = rect;
+
+    self = [super initWithFrame:initRect];
+
     if (self) {
 
         CGRect buttonRect = (CGRect){{self.frame.size.width + 1, ceilf((self.frame.size.height - 32) / 2)}, {71, 32}};
@@ -118,11 +125,11 @@ static const CGFloat kBGInsetRight  =  1.0f;
                                if (error) {
                                    DLog(@"%@", error);
                                }
-                               if ([self.delegate respondsToSelector:@selector(searchBar:didEndSearchig:returningResults:)]) {
+//                               if ([self.delegate respondsToSelector:@selector(searchBar:didEndSearchig:returningResults:)]) {
                                    [self.delegate searchBar:self
                                             didEndSearching:searchSubstring
                                            returningResults:error ? nil : items];
-                               }
+//                               }
                            }];
 }
 
