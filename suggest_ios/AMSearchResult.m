@@ -36,6 +36,7 @@
 @property (nonatomic, copy, readwrite) NSAttributedString *content;
 @property (nonatomic, copy, readwrite) NSAttributedString *title;
 @property (nonatomic, copy, readwrite) NSURL *url;
+@property (nonatomic, copy, readwrite) NSURL *imageURL;
 
 @end
 
@@ -68,7 +69,17 @@
         else
             self.title = [p attributedStringFromMarkup:[JSONDict valueForKey:@"title"]];
 
-        self.url = [NSURL URLWithString:[JSONDict valueForKey:@"url"]];
+        if ([JSONDict valueForKey:@"url"]) {
+            self.url = [NSURL URLWithString:[JSONDict valueForKey:@"url"]];
+        }
+
+        if ([JSONDict valueForKey:@"image_rel_url"]) {
+            self.imageURL = [NSURL URLWithString:[JSONDict valueForKey:@"image_rel_url"]
+                                   relativeToURL:[NSURL URLWithString:@"https://suggest.io/"]]; 
+        }
+        else {
+            self.imageURL = nil;
+        }
     }
     return self;
 }

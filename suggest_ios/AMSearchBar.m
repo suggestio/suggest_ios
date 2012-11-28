@@ -55,15 +55,22 @@ static const CGFloat kBGInsetBottom = 21.0f;
 static const CGFloat kBGInsetRight  =  1.0f;
 
 
-- (id) initWithStyle:(AMSearchBarFieldStyle)fs
+- (id) initWithStyle:(AMSearchBarFieldStyle)fs rect:(CGRect)rect
 {
-    self = [super initWithFrame:CGRectMake(0, 0, 320, 44)];
+    CGRect initRect;
+    if (CGRectEqualToRect(rect, CGRectZero))
+        initRect = (CGRectMake(0, 0, 320, 44));
+    else
+        initRect = rect;
+
+    self = [super initWithFrame:initRect];
+
     if (self) {
 
-        CGRect buttonRect = (CGRect){{self.frame.size.width + 1, 6}, {71, 32}};
-        CGRect fieldRect = {{6, 6}, {self.frame.size.width - 12, 32}};
+        CGRect buttonRect = (CGRect){{self.frame.size.width + 1, ceilf((self.frame.size.height - 32) / 2)}, {71, 32}};
+        CGRect fieldRect = (CGRect){{6, ceilf((self.frame.size.height - 32) / 2)}, {self.frame.size.width - 12, 32}};
 
-        self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin;
         self.autoresizesSubviews = YES;
 
         self.hasCancelButton = YES;
@@ -109,16 +116,20 @@ static const CGFloat kBGInsetRight  =  1.0f;
     if (self.inputTimer)
         [self.inputTimer invalidate];
 
-    [self.delegate searchBar:self didStartSearching:self.searchField.text];
+    if ([self.delegate respondsToSelector:@selector(searchBar:didStartSearching:)]) {
+        [self.delegate searchBar:self didStartSearching:self.searchField.text];
+    }
     [self.datasource searchForSubstring:searchSubstring
                                inDomain:[self.delegate searchBarQueryDomain:self]
                            onCompletion:^(NSArray *items, NSError *error) {
                                if (error) {
                                    DLog(@"%@", error);
                                }
-                               [self.delegate searchBar:self
-                                        didEndSearching:searchSubstring
-                                       returningResults:error ? nil : items];
+//                               if ([self.delegate respondsToSelector:@selector(searchBar:didEndSearchig:returningResults:)]) {
+                                   [self.delegate searchBar:self
+                                            didEndSearching:searchSubstring
+                                           returningResults:error ? nil : items];
+//                               }
                            }];
 }
 
@@ -126,7 +137,9 @@ static const CGFloat kBGInsetRight  =  1.0f;
 - (void) cancelSearch
 {
     [self.datasource cancelAllSearchesInDomain:[self.delegate searchBarQueryDomain:self]];
-    [self.delegate searchBarDidCancelSearch:self];
+    if ([self.delegate respondsToSelector:@selector(searchBarDidCancelSearch:)]) {
+        [self.delegate searchBarDidCancelSearch:self];
+    }
 }
 
 
@@ -222,8 +235,8 @@ static const CGFloat kBGInsetRight  =  1.0f;
 
 - (void) textFieldDidBeginEditing:(UITextField *)textField
 {
-    __block CGRect buttonRect = (CGRect){{self.frame.size.width + 1, 6}, {71, 32}};
-    __block CGRect fieldRect = {{6, 6}, {self.frame.size.width - 12, 32}};
+    __block CGRect buttonRect = (CGRect){{self.frame.size.width + 1, (self.frame.size.height - 32) / 2}, {71, 32}};
+    __block CGRect fieldRect = {{6, (self.frame.size.height - 32) / 2}, {self.frame.size.width - 12, 32}};
 
     if (self.hasCancelButton && (self.cancelButton.frame.origin.x > self.frame.size.width)) {
         if (! [self.cancelButton superview]) {
@@ -250,7 +263,8 @@ static const CGFloat kBGInsetRight  =  1.0f;
 
 - (void) cancelButtonPressed:(id)sender
 {
-    [self cancelSearch];
+    [self performSelector:@selector(cancelSearch) onThread:[NSThread currentThread] withObject:self waitUntilDone:YES];
+    [self.delegate searchBarWasDismissed:self];
 }
 
 

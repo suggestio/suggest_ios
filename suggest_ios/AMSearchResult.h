@@ -35,6 +35,7 @@
 @property (nonatomic, copy, readonly) NSAttributedString *content;
 @property (nonatomic, copy, readonly) NSAttributedString *title;
 @property (nonatomic, copy, readonly) NSURL *url;
+@property (nonatomic, copy, readonly) NSURL *imageURL;
 
 - (id) initWithJSON:(NSDictionary *)JSONDict;
 - (NSString *) description;
