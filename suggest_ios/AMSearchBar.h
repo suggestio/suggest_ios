@@ -160,12 +160,20 @@ typedef void (^SearchCompletionBlock)(NSArray *items, NSError *error);
  * Whether the cancel button is shown in the seatch bar
  */
 @property (assign) BOOL hasCancelButton;
+ 
+/**
+ * Title for the Cancel button (default is NSLocalizedString(@"Cancel", @"Cancel"))
+ */
+@property (nonatomic, copy) NSString *cancelButtonTitle;
 
 /**
  * Tint color for the search bar
  */
 @property (nonatomic, strong) UIColor *tintColor;
 
+/**
+ * CGBlendMode to use when painting the tint color (default is kCGBlendModeMultiply)
+ */
 @property (assign) CGBlendMode blendMode;
 
 /**
