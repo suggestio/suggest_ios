@@ -74,7 +74,7 @@ static const CGFloat kBGInsetRight  =  1.0f;
         self.autoresizesSubviews = YES;
 
         self.hasCancelButton = YES;
-
+		self.cancelButtonTitle = NSLocalizedString(@"Cancel", @"Cancel");
         self.blendMode = kCGBlendModeMultiply;
 
         self.cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -125,11 +125,11 @@ static const CGFloat kBGInsetRight  =  1.0f;
                                if (error) {
                                    DLog(@"%@", error);
                                }
-//                               if ([self.delegate respondsToSelector:@selector(searchBar:didEndSearchig:returningResults:)]) {
+                               if ([self.delegate respondsToSelector:@selector(searchBar:didEndSearching:returningResults:)]) {
                                    [self.delegate searchBar:self
                                             didEndSearching:searchSubstring
                                            returningResults:error ? nil : items];
-//                               }
+                               }
                            }];
 }
 
