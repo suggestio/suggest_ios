@@ -49,3 +49,5 @@
 #define SYSTEM_VERSION_LESS_THAN_OR_EQUAL_TO(v)     ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedDescending)
 
 #define DEFAULT_TINT_COLOR                          [UIColor colorWithRed:0.0f green:0.2f blue:0.6f alpha:0.5f]
+
+#define SCREEN_SCALE_RATIO							([[UIScreen mainScreen] scale])

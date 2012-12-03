@@ -30,6 +30,7 @@
 
 #import "AMSearchBar.h"
 #import "AMMacros.h"
+#import "UIImage+SIO.h"
 
 @interface AMSearchBar ()
 
@@ -37,6 +38,9 @@
 @property (nonatomic, strong) UIImageView *backgroundView;
 @property (nonatomic, strong) NSTimer *inputTimer;
 @property (nonatomic, strong) UIButton *cancelButton;
+
+@property (nonatomic, strong) UIImage *btnImage;
+@property (nonatomic, strong) UIImage *btnPressedImage;
 
 - (void) search:(NSString *)searchSubstring;
 - (void) cancelSearch;
@@ -67,20 +71,27 @@ static const CGFloat kBGInsetRight  =  1.0f;
 
     if (self) {
 
-        CGRect buttonRect = (CGRect){{self.frame.size.width + 1, ceilf((self.frame.size.height - 32) / 2)}, {71, 32}};
-        CGRect fieldRect = (CGRect){{6, ceilf((self.frame.size.height - 32) / 2)}, {self.frame.size.width - 12, 32}};
+        CGRect buttonRect = (CGRect){{self.frame.size.width + 1, ceilf((self.frame.size.height - 31) / 2)}, {71, 31}};
+        CGRect fieldRect = (CGRect){{6, ceilf((self.frame.size.height - 31) / 2)}, {self.frame.size.width - 12, 31}};
 
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin;
         self.autoresizesSubviews = YES;
 
         self.hasCancelButton = YES;
-
+        self.cancelButtonTitle = NSLocalizedString(@"Cancel", @"Cancel");
         self.blendMode = kCGBlendModeMultiply;
 
         self.cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [self.cancelButton setImage:[UIImage imageNamed:@"search_bar_cancel_btn"] forState:UIControlStateNormal];
-        [self.cancelButton setImage:[UIImage imageNamed:@"search_bar_cancel_btn_pressed"] forState:UIControlStateHighlighted];
-        [self.cancelButton setImage:[UIImage imageNamed:@"search_bar_cancel_btn_pressed"] forState:UIControlStateSelected];
+
+        self.btnImage = [UIImage imageNamed:@"sio_btn"];
+        self.btnPressedImage = [UIImage imageNamed:@"sio_btn_pressed"];
+
+        [self.cancelButton setImage:self.btnImage
+                           forState:UIControlStateNormal];
+        [self.cancelButton setImage:self.btnPressedImage
+                           forState:UIControlStateHighlighted];
+        [self.cancelButton setImage:self.btnPressedImage
+                           forState:UIControlStateSelected];
         self.cancelButton.autoresizingMask = UIViewAutoresizingNone;
         self.cancelButton.frame = buttonRect;
         if (self.hasCancelButton) {
@@ -88,6 +99,7 @@ static const CGFloat kBGInsetRight  =  1.0f;
             [self.cancelButton addTarget:self
                                   action:@selector(cancelButtonPressed:)
                         forControlEvents:UIControlEventTouchUpInside];
+            self.cancelButton.layer.cornerRadius = 5.0;
         }
 
         AMSearchField *se = [[AMSearchField alloc] initWithFrame:fieldRect style:fs];
@@ -99,6 +111,32 @@ static const CGFloat kBGInsetRight  =  1.0f;
         self.searchField.delegate = self;
     }
     return self;
+}
+
+- (void) setTintColor:(UIColor *)tintColor
+{
+    _tintColor = tintColor;
+    self.btnImage = [[UIImage imageNamed:@"sio_btn"] imageWithTintColor:self.tintColor
+                                                              blendMode:self.blendMode];
+
+    self.btnPressedImage = [[UIImage imageNamed:@"sio_btn_pressed"] imageWithTintColor:self.tintColor
+                                                                             blendMode:self.blendMode];
+
+    [self.cancelButton setImage:[self.btnImage imageWithTextCaption:self.cancelButtonTitle
+                                                               font:[UIFont fontWithName:@"Arial Narrow" size:16.0]
+                                                              color:[UIColor whiteColor]]
+                       forState:UIControlStateNormal];
+    [self.cancelButton setImage:[self.btnPressedImage
+                                 imageWithTextCaption:self.cancelButtonTitle
+                                 font:[UIFont fontWithName:@"Arial Narrow" size:16.0]
+                                 color:[UIColor colorWithRed:110.0/255.0 green:153.0/255.0 blue:200.0/255.0 alpha:1.0]]
+                       forState:UIControlStateHighlighted];
+    [self.cancelButton setImage:[self.btnPressedImage
+                                 imageWithTextCaption:self.cancelButtonTitle
+                                 font:[UIFont fontWithName:@"Arial Narrow" size:16.0]
+                                 color:[UIColor colorWithRed:110.0/255.0 green:153.0/255.0 blue:200.0/255.0 alpha:1.0]]
+                       forState:UIControlStateSelected];
+    self.cancelButton.layer.cornerRadius = 5.0;
 }
 
 
@@ -125,11 +163,11 @@ static const CGFloat kBGInsetRight  =  1.0f;
                                if (error) {
                                    DLog(@"%@", error);
                                }
-//                               if ([self.delegate respondsToSelector:@selector(searchBar:didEndSearchig:returningResults:)]) {
+                               if ([self.delegate respondsToSelector:@selector(searchBar:didEndSearching:returningResults:)]) {
                                    [self.delegate searchBar:self
                                             didEndSearching:searchSubstring
                                            returningResults:error ? nil : items];
-//                               }
+                               }
                            }];
 }
 
@@ -249,6 +287,8 @@ static const CGFloat kBGInsetRight  =  1.0f;
 
         buttonRect.origin.x = self.frame.size.width - 76;
         fieldRect.size.width = self.frame.size.width - 88;
+
+        self.cancelButton.layer.cornerRadius = 5.0;
 
         [UIView animateWithDuration:0.3
                          animations:^{
