@@ -169,7 +169,7 @@ typedef void (^SearchCompletionBlock)(NSArray *items, NSError *error);
 /**
  * Tint color for the search bar
  */
-@property (nonatomic, strong) UIColor *tintColor;
+@property (nonatomic, strong, setter = setTintColor:) UIColor *tintColor;
 
 /**
  * CGBlendMode to use when painting the tint color (default is kCGBlendModeMultiply)
