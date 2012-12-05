@@ -31,9 +31,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UIImage (SIO)
+@interface UIImage (SIOButton)
 
-- (UIImage *) imageWithTextCaption:(NSString *)caption font:(UIFont *)font color:(UIColor *)color;
-- (UIImage *) imageWithTintColor:(UIColor *)color blendMode:(CGBlendMode)blendMode;
++ (UIImage *) pressedButtonImageWithText:(NSString *)captionText font:(UIFont *)font textColor:(UIColor *)color tintColor:(UIColor *)tintColor;
++ (UIImage *) buttonImageWithText:(NSString *)captionText font:(UIFont *)font textColor:(UIColor *)color tintColor:(UIColor *)tintColor;
+
+//- (UIImage *) imageWithTextCaption:(NSString *)caption font:(UIFont *)font color:(UIColor *)color;
+//- (UIImage *) imageWithTintColor:(UIColor *)color blendMode:(CGBlendMode)blendMode;
 
 @end

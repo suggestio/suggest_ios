@@ -30,7 +30,7 @@
 
 #import "AMSearchBar.h"
 #import "AMMacros.h"
-#import "UIImage+SIO.h"
+#import "UIImage+SIOButton.h"
 
 @interface AMSearchBar ()
 
@@ -38,6 +38,9 @@
 @property (nonatomic, strong) UIImageView *backgroundView;
 @property (nonatomic, strong) NSTimer *inputTimer;
 @property (nonatomic, strong) UIButton *cancelButton;
+
+//@property (nonatomic, strong) UIImage *cancelButtonImage;
+//@property (nonatomic, strong) UIImage *cancelButtonPressedImage;
 
 @property (nonatomic, strong) UIImage *btnImage;
 @property (nonatomic, strong) UIImage *btnPressedImage;
@@ -83,8 +86,8 @@ static const CGFloat kBGInsetRight  =  1.0f;
 
         self.cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
 
-        self.btnImage = [UIImage imageNamed:@"sio_btn"];
-        self.btnPressedImage = [UIImage imageNamed:@"sio_btn_pressed"];
+        self.btnImage = [UIImage imageNamed:@"button"];
+        self.btnPressedImage = [UIImage imageNamed:@"button_pressed"];
 
         [self.cancelButton setImage:self.btnImage
                            forState:UIControlStateNormal];
@@ -99,7 +102,6 @@ static const CGFloat kBGInsetRight  =  1.0f;
             [self.cancelButton addTarget:self
                                   action:@selector(cancelButtonPressed:)
                         forControlEvents:UIControlEventTouchUpInside];
-            self.cancelButton.layer.cornerRadius = 5.0;
         }
 
         AMSearchField *se = [[AMSearchField alloc] initWithFrame:fieldRect style:fs];
@@ -116,27 +118,30 @@ static const CGFloat kBGInsetRight  =  1.0f;
 - (void) setTintColor:(UIColor *)tintColor
 {
     _tintColor = tintColor;
-    self.btnImage = [[UIImage imageNamed:@"sio_btn"] imageWithTintColor:self.tintColor
-                                                              blendMode:self.blendMode];
 
-    self.btnPressedImage = [[UIImage imageNamed:@"sio_btn_pressed"] imageWithTintColor:self.tintColor
-                                                                             blendMode:self.blendMode];
-
-    [self.cancelButton setImage:[self.btnImage imageWithTextCaption:self.cancelButtonTitle
-                                                               font:[UIFont fontWithName:@"Arial Narrow" size:16.0]
-                                                              color:[UIColor whiteColor]]
+    self.btnImage = [UIImage buttonImageWithText:@"Cancel"
+                                            font:[UIFont fontWithName:@"Arial Narrow"
+                                                                 size:16.0]
+                                       textColor:[UIColor whiteColor]
+                                       tintColor:self.tintColor];
+    [self.cancelButton setImage:self.btnImage
                        forState:UIControlStateNormal];
-    [self.cancelButton setImage:[self.btnPressedImage
-                                 imageWithTextCaption:self.cancelButtonTitle
-                                 font:[UIFont fontWithName:@"Arial Narrow" size:16.0]
-                                 color:[UIColor colorWithRed:110.0/255.0 green:153.0/255.0 blue:200.0/255.0 alpha:1.0]]
+
+
+    self.btnPressedImage = [UIImage pressedButtonImageWithText:@"Cancel"
+                                                          font:[UIFont fontWithName:@"Arial Narrow"
+                                                                               size:16.0]
+                                                     textColor:[UIColor colorWithRed:110.0/255.0
+                                                                               green:153.0/255.0
+                                                                                blue:200.0/255.0
+                                                                               alpha:1.0]
+                                                     tintColor:self.tintColor];
+
+    [self.cancelButton setImage:self.btnPressedImage
                        forState:UIControlStateHighlighted];
-    [self.cancelButton setImage:[self.btnPressedImage
-                                 imageWithTextCaption:self.cancelButtonTitle
-                                 font:[UIFont fontWithName:@"Arial Narrow" size:16.0]
-                                 color:[UIColor colorWithRed:110.0/255.0 green:153.0/255.0 blue:200.0/255.0 alpha:1.0]]
+    [self.cancelButton setImage:self.btnPressedImage
                        forState:UIControlStateSelected];
-    self.cancelButton.layer.cornerRadius = 5.0;
+
 }
 
 
