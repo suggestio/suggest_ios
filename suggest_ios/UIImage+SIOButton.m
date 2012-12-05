@@ -29,132 +29,107 @@
 // THE SOFTWARE.
 
 
-#import "UIImage+SIO.h"
+#import "UIImage+SIOButton.h"
 
-@implementation UIImage (SIO)
+@implementation UIImage (SIOButton)
 
-- (UIImage *) imageWithTextCaption:(NSString *)caption font:(UIFont *)font color:(UIColor *)color
+//
+// create a CGImageMask from UIImage. This method returns a retained instance of CGImageMask,
+// so make sure to CGImageRelease() it after use!
+//
+
+static CGImageRef createMaskWithImage(CGImageRef image)
 {
-    DLog(@"%@", caption);
-    // create a new CGContext
-    UIGraphicsBeginImageContextWithOptions(self.size, NO, 0);
-//    CGContextRef context = UIGraphicsGetCurrentContext();
+    int maskWidth = CGImageGetWidth(image);
+    int maskHeight = CGImageGetHeight(image);
+    //  round bytesPerRow to the nearest 16 bytes, for performance's sake
+    int bytesPerRow = (maskWidth + 15) & 0xfffffff0;
+    int bufferSize = bytesPerRow * maskHeight;
 
-    // render the image
-    [self drawInRect:(CGRect){{0.0, 0.0}, [self size]}];
+    //  we use CFData instead of malloc(), because the memory has to stick around
+    //  for the lifetime of the mask. if we used malloc(), we'd have to
+    //  tell the CGDataProvider how to dispose of the memory when done. using
+    //  CFData is just easier and cleaner.
 
-    // render the caption
-    UIFont *actualFont = [font fontWithSize:font.pointSize * [[UIScreen mainScreen] scale]];
+    CFMutableDataRef dataBuffer = CFDataCreateMutable(kCFAllocatorDefault, 0);
+    CFDataSetLength(dataBuffer, bufferSize);
 
-    [color set];
-    CGSize captionSize = [caption sizeWithFont:actualFont
-                             constrainedToSize:self.size];
-    CGRect captionRect = CGRectMake(ceilf((self.size.width - captionSize.width) / 2.0),
-                                    ceilf((self.size.height - captionSize.height) / 2.0),
-                                    captionSize.width,
-                                    captionSize.height);
+    //  the data will be 8 bits per pixel, no alpha
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceGray();
+    CGContextRef ctx = CGBitmapContextCreate(CFDataGetMutableBytePtr(dataBuffer),
+                                             maskWidth,
+                                             maskHeight,
+                                             8,
+                                             bytesPerRow,
+                                             colorSpace,
+                                             kCGImageAlphaNone);
+    //  drawing into this context will draw into the dataBuffer.
+    CGContextDrawImage(ctx, CGRectMake(0, 0, maskWidth, maskHeight), image);
+    CGContextRelease(ctx);
 
-    [color set];
-    [caption drawInRect:captionRect withFont:actualFont];
+    //  now make a mask from the data.
+    CGDataProviderRef dataProvider = CGDataProviderCreateWithCFData(dataBuffer);
+    CGImageRef mask = CGImageMaskCreate(maskWidth,
+                                        maskHeight,
+                                        8,
+                                        8,
+                                        bytesPerRow,
+                                        dataProvider,
+                                        NULL,
+                                        FALSE);
 
-    // Fetch the image
-    UIImage *renderedImage = UIGraphicsGetImageFromCurrentImageContext();
+    CGDataProviderRelease(dataProvider);
+    CGColorSpaceRelease(colorSpace);
+    CFRelease(dataBuffer);
 
-    // Cleanup
-    UIGraphicsEndImageContext();
-
-    return renderedImage;
+    return mask;
 }
 
-
-- (UIImage *) imageWithTintColor:(UIColor *)color blendMode:(CGBlendMode)blendMode
+- (UIImage *) btnImageWithText:(NSString *)captionText font:(UIFont *)font textColor:(UIColor *)color tintColor:(UIColor *)tintColor
 {
-    // create a new CGContext
+    UIImage *btnImage;
     UIGraphicsBeginImageContextWithOptions(self.size, NO, 0);
 
     // render the image
     [self drawInRect:(CGRect){{0.0, 0.0}, [self size]}];
 
     // apply tint
+    [tintColor set];
+    UIRectFillUsingBlendMode((CGRect){{0.0, 0.0}, [self size]}, kCGBlendModeMultiply);
+
+    CGSize captionSize = [captionText sizeWithFont:font
+                                 constrainedToSize:self.size];
+    CGRect captionRect = CGRectMake(ceilf((self.size.width - captionSize.width) / 2.0),
+                                    ceilf((self.size.height - captionSize.height) / 2.0),
+                                    ceilf(captionSize.width),
+                                    ceilf(captionSize.height));
+
     [color set];
-    UIRectFillUsingBlendMode((CGRect){{0.0, 0.0}, [self size]}, blendMode);
+    [captionText drawInRect:captionRect withFont:font];
 
-    // fetch resulting image
-    UIImage *renderedImage = UIGraphicsGetImageFromCurrentImageContext();
+    // Fetch the image
+    btnImage = UIGraphicsGetImageFromCurrentImageContext();
 
-    // Cleanup
     UIGraphicsEndImageContext();
 
-    return [renderedImage roundedCornerImage:6];
+    // apply mask:
+    CGImageRef maskImageRef = createMaskWithImage([UIImage imageNamed:@"button_mask_inverse"].CGImage);
+    UIImage *img = [UIImage imageWithCGImage:CGImageCreateWithMask(btnImage.CGImage, maskImageRef)];
+    CGImageRelease(maskImageRef);
+    return img;
 }
 
-
-// Adds a rectangular path to the given context and rounds its corners by the given extents
-// Original author: Björn Sållarp. Used with permission. See: http://blog.sallarp.com/iphone-uiimage-round-corners/
-- (void)addRoundedRectToPath:(CGRect)rect context:(CGContextRef)context ovalWidth:(CGFloat)ovalWidth ovalHeight:(CGFloat)ovalHeight
++ (UIImage *) buttonImageWithText:(NSString *)captionText font:(UIFont *)font textColor:(UIColor *)color tintColor:(UIColor *)tintColor
 {
-    if (ovalWidth == 0 || ovalHeight == 0) {
-        CGContextAddRect(context, rect);
-        return;
-    }
-    CGContextSaveGState(context);
-    CGContextTranslateCTM(context, CGRectGetMinX(rect), CGRectGetMinY(rect));
-    CGContextScaleCTM(context, ovalWidth, ovalHeight);
-    CGFloat fw = CGRectGetWidth(rect) / ovalWidth;
-    CGFloat fh = CGRectGetHeight(rect) / ovalHeight;
-    CGContextMoveToPoint(context, fw, fh/2);
-    CGContextAddArcToPoint(context, fw, fh, fw/2, fh, 1);
-    CGContextAddArcToPoint(context, 0, fh, 0, fh/2, 1);
-    CGContextAddArcToPoint(context, 0, 0, fw/2, 0, 1);
-    CGContextAddArcToPoint(context, fw, 0, fw, fh/2, 1);
-    CGContextClosePath(context);
-    CGContextRestoreGState(context);
+    UIImage *btnImage = [UIImage imageNamed:@"button"];
+    return [btnImage btnImageWithText:captionText font:font textColor:color tintColor:tintColor];
 }
 
-
-// Creates a copy of this image with rounded corners
-// If borderSize is non-zero, a border of the given size will also be added
-// If borderColor is not nil, a border of given color will be added, otherwise the border will be transparent.
-// Original author: Björn Sållarp. Used with permission. See: http://blog.sallarp.com/iphone-uiimage-round-corners/
-- (UIImage *)roundedCornerImage:(NSInteger)cornerSize// borderSize:(NSInteger)borderSize borderColor:(UIColor *)borderColor
++ (UIImage *) pressedButtonImageWithText:(NSString *)captionText font:(UIFont *)font textColor:(UIColor *)color tintColor:(UIColor *)tintColor
 {
-    UIImage *image = self;
-    
-    // Build a context that's the same dimensions as the new size
-    CGContextRef context = CGBitmapContextCreate(NULL,
-                                                 image.size.width,
-                                                 image.size.height,
-                                                 CGImageGetBitsPerComponent(image.CGImage),
-                                                 0,
-                                                 CGImageGetColorSpace(image.CGImage),
-                                                 CGImageGetBitmapInfo(image.CGImage));
-
-    // Create a clipping path with rounded corners
-    CGFloat scale = [[UIScreen mainScreen] scale];
-    CGContextBeginPath(context);
-    CGRect clippingRectBordered = (CGRect){ {0.0f, 0.0f}, image.size};
-
-    [self addRoundedRectToPath:clippingRectBordered
-                       context:context
-                     ovalWidth:cornerSize * scale
-                    ovalHeight:cornerSize * scale];
-    CGContextClosePath(context);
-    CGContextClip(context);
-
-    // Draw the image to the context; the clipping path will make anything outside the rounded rect transparent
-    CGContextDrawImage(context, CGRectMake(0, 0, image.size.width, image.size.height), image.CGImage);
-
-    // Create a CGImage from the context
-    CGImageRef clippedImage = CGBitmapContextCreateImage(context);
-    CGContextRelease(context);
-
-    // Create a UIImage from the CGImage
-    UIImage *roundedImage = [UIImage imageWithCGImage:clippedImage];
-    CGImageRelease(clippedImage);
-
-    return roundedImage;
+    UIImage *btnImage = [UIImage imageNamed:@"button_pressed"];
+    return [btnImage btnImageWithText:captionText font:font textColor:color tintColor:tintColor];
 }
-
 
 
 @end
