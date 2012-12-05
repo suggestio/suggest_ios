@@ -177,22 +177,6 @@ typedef void (^SearchCompletionBlock)(NSArray *items, NSError *error);
 @property (assign) CGBlendMode blendMode;
 
 
-///**
-// * Custom cancel button image (for UIControlStateNormal)
-// *
-// * when custom button image is set, tintColor and blendMode are ignored for the cancel button
-// */
-//@property (nonatomic, strong) UIImage *btnImage;
-//
-///**
-// * Custom cancel button image (for UIControlStateHighlighted|UIControlStateSelected)
-// *
-// * when custom button image is set, tintColor and blendMode are ignored for the cancel button
-// */
-//@property (nonatomic, strong) UIImage *btnPressedImage;
-
-
-
 /**
  * Search bar delegate object
  *

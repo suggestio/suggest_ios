@@ -38,10 +38,6 @@
 @property (nonatomic, strong) UIImageView *backgroundView;
 @property (nonatomic, strong) NSTimer *inputTimer;
 @property (nonatomic, strong) UIButton *cancelButton;
-
-//@property (nonatomic, strong) UIImage *cancelButtonImage;
-//@property (nonatomic, strong) UIImage *cancelButtonPressedImage;
-
 @property (nonatomic, strong) UIImage *btnImage;
 @property (nonatomic, strong) UIImage *btnPressedImage;
 
