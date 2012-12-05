@@ -1,6 +1,6 @@
 //
 //  UIImage+SIO.h
-//  ldpr-ios
+//  suggest_ios
 //
 //  Created by Andrey Yurkevich on 12/03/12.
 //  Copyright (c) 2012 Suggest.io. All rights reserved.
@@ -35,8 +35,5 @@
 
 + (UIImage *) pressedButtonImageWithText:(NSString *)captionText font:(UIFont *)font textColor:(UIColor *)color tintColor:(UIColor *)tintColor;
 + (UIImage *) buttonImageWithText:(NSString *)captionText font:(UIFont *)font textColor:(UIColor *)color tintColor:(UIColor *)tintColor;
-
-//- (UIImage *) imageWithTextCaption:(NSString *)caption font:(UIFont *)font color:(UIColor *)color;
-//- (UIImage *) imageWithTintColor:(UIColor *)color blendMode:(CGBlendMode)blendMode;
 
 @end

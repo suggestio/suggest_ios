@@ -1,6 +1,6 @@
 //
 //  UIImage+SIO.m
-//  ldpr-ios
+//  suggest_ios
 //
 //  Created by Andrey Yurkevich on 12/03/12.
 //  Copyright (c) 2012 Suggest.io. All rights reserved.
