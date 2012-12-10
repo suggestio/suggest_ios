@@ -31,6 +31,7 @@
 #import "AMSearchBar.h"
 #import "AMMacros.h"
 #import "UIImage+SIOButton.h"
+#import "UIColor+AMUtils.h"
 
 @interface AMSearchBar ()
 
@@ -77,7 +78,7 @@ static const CGFloat kBGInsetRight  =  1.0f;
         self.autoresizesSubviews = YES;
 
         self.hasCancelButton = YES;
-        self.cancelButtonTitle = NSLocalizedString(@"Cancel", @"Cancel");
+        self.cancelButtonTitle = NSLocalizedString(@"Cancel", @"");
         self.blendMode = kCGBlendModeMultiply;
 
         self.cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -114,24 +115,26 @@ static const CGFloat kBGInsetRight  =  1.0f;
 - (void) setTintColor:(UIColor *)tintColor
 {
     _tintColor = tintColor;
+    UIColor *buttonTintColor = [tintColor adjustBrightness:0.8];
 
-    self.btnImage = [UIImage buttonImageWithText:@"Cancel"
+    self.btnImage = [UIImage buttonImageWithText:NSLocalizedString(@"Cancel", @"")
                                             font:[UIFont fontWithName:@"Arial Narrow"
                                                                  size:16.0]
                                        textColor:[UIColor whiteColor]
-                                       tintColor:self.tintColor];
+                                       tintColor:buttonTintColor];
     [self.cancelButton setImage:self.btnImage
                        forState:UIControlStateNormal];
 
 
-    self.btnPressedImage = [UIImage pressedButtonImageWithText:@"Cancel"
+
+    self.btnPressedImage = [UIImage pressedButtonImageWithText:NSLocalizedString(@"Cancel", @"")
                                                           font:[UIFont fontWithName:@"Arial Narrow"
                                                                                size:16.0]
                                                      textColor:[UIColor colorWithRed:110.0/255.0
                                                                                green:153.0/255.0
                                                                                 blue:200.0/255.0
                                                                                alpha:1.0]
-                                                     tintColor:self.tintColor];
+                                                     tintColor:buttonTintColor];
 
     [self.cancelButton setImage:self.btnPressedImage
                        forState:UIControlStateHighlighted];
