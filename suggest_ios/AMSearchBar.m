@@ -31,7 +31,7 @@
 #import "AMSearchBar.h"
 #import "AMMacros.h"
 #import "UIImage+SIOButton.h"
-#import "UIColor+AMUtils.h"
+#import "UIColor+SIO.h"
 
 @interface AMSearchBar ()
 
@@ -108,6 +108,7 @@ static const CGFloat kBGInsetRight  =  1.0f;
         self.searchField.userInteractionEnabled = YES;
         [self addSubview:self.searchField];
         self.searchField.delegate = self;
+        self.searchField.placeholder = NSLocalizedString(@"Suggest.io live search", @"SearchField placeholder text");
     }
     return self;
 }

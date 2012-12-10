@@ -1,5 +1,5 @@
 //
-//  UIColor+AMUtils.m
+//  UIColor+SIO.m
 //  suggest_ios
 //
 //  Created by Andrey Yurkevich on 8/22/12.
@@ -28,12 +28,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "UIColor+AMUtils.h"
+#import "UIColor+SIO.h"
 
 static void rgb2hsv (CGFloat r, CGFloat g, CGFloat b, CGFloat* h, CGFloat* s, CGFloat* v);
 static void hsv2rgb (CGFloat h, CGFloat s, CGFloat v, CGFloat* r, CGFloat* g, CGFloat* b);
 
-@implementation UIColor (AMUtils)
+@implementation UIColor (SIO)
 
 + (UIColor *) colorWithHTMLColor:(NSUInteger)htmlColor
 {

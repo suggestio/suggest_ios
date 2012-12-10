@@ -48,7 +48,7 @@ static const int kMarginY = 0;
         self.returnKeyType = UIReturnKeySearch;
         self.clearButtonMode = UITextFieldViewModeAlways;
         self.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-        self.placeholder = NSLocalizedString(@"Suggest.io live search", @"SearchField placeholder text");
+//        self.placeholder = NSLocalizedString(@"Suggest.io live search", @"SearchField placeholder text");
 
         UIImageView *iv = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"accessory_search"]];
         iv.frame = CGRectMake(0, 0, 28, 24);

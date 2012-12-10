@@ -1,5 +1,5 @@
 //
-//  UIColor+AMUtils.h
+//  UIColor+SIO.h
 //  suggest_ios
 //
 //  Copyright (c) 2012 Suggest.io. All rights reserved.
@@ -29,7 +29,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UIColor (AMUtils)
+@interface UIColor (SIO)
 
 + (UIColor *) colorWithHTMLColor:(NSUInteger)htmlColor;
 
