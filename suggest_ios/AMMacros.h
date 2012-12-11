@@ -40,7 +40,11 @@
 #endif
 
 // ALog always displays output regardless of the DEBUG setting
-#define ALog(fmt, ...) {NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);};
+#ifdef DEBUG
+#   define ALog(fmt, ...) { NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);};
+#else
+#   define ALog(fmt, ...) { NSLog((@"%s " fmt, __PRETTY_FUNCTION__, ##__VA_ARGS__);};
+#endif
 
 #define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)
 #define SYSTEM_VERSION_GREATER_THAN(v)              ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedDescending)
@@ -48,8 +52,8 @@
 #define SYSTEM_VERSION_LESS_THAN(v)                 ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
 #define SYSTEM_VERSION_LESS_THAN_OR_EQUAL_TO(v)     ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedDescending)
 
-#define DEFAULT_TINT_COLOR                          [UIColor colorWithRed:0.0f green:0.2f blue:0.6f alpha:0.5f]
+#define SIO_DEFAULT_TINT_COLOR                      [UIColor colorWithRed:0.0f green:0.2f blue:0.6f alpha:0.5f]
 
-#define SCREEN_SCALE_RATIO							([[UIScreen mainScreen] scale])
+#define SCREEN_SCALE_RATIO                          ([[UIScreen mainScreen] scale])
 
-#define SIO_DEFAULT_FONT_NAME                       @"Arial Narrow"
+#define SIO_DEFAULT_FONT_NAME                       (@"Helvetica")
