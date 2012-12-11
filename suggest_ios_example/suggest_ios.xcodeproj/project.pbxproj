@@ -37,6 +37,10 @@
 		7C8CD13916772D4A00578E69 /* button.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C8CD13116772D4A00578E69 /* button.png */; };
 		7C8CD13A16772D4A00578E69 /* button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C8CD13216772D4A00578E69 /* button@2x.png */; };
 		7C8CD13D1677336900578E69 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7C8CD13B1677336900578E69 /* Localizable.strings */; };
+		7C8CD14B16774F0F00578E69 /* SIOViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C8CD14916774F0F00578E69 /* SIOViewController.m */; };
+		7C8CD14C16774F0F00578E69 /* SIOViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C8CD14A16774F0F00578E69 /* SIOViewController.xib */; };
+		7CF93FFF167773F200CA6CCD /* UIColor+SIO.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CF93FFC167773F200CA6CCD /* UIColor+SIO.m */; };
+		7CF94000167773F200CA6CCD /* UIImage+SIOButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CF93FFE167773F200CA6CCD /* UIImage+SIOButton.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -82,6 +86,13 @@
 		7C8CD13C1677336900578E69 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7C8CD13E1677338D00578E69 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7C8CD13F1677344400578E69 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		7C8CD14816774F0F00578E69 /* SIOViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIOViewController.h; sourceTree = "<group>"; };
+		7C8CD14916774F0F00578E69 /* SIOViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIOViewController.m; sourceTree = "<group>"; };
+		7C8CD14A16774F0F00578E69 /* SIOViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SIOViewController.xib; sourceTree = "<group>"; };
+		7CF93FFB167773F200CA6CCD /* UIColor+SIO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+SIO.h"; sourceTree = "<group>"; };
+		7CF93FFC167773F200CA6CCD /* UIColor+SIO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+SIO.m"; sourceTree = "<group>"; };
+		7CF93FFD167773F200CA6CCD /* UIImage+SIOButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+SIOButton.h"; sourceTree = "<group>"; };
+		7CF93FFE167773F200CA6CCD /* UIImage+SIOButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+SIOButton.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +144,9 @@
 			children = (
 				7C653BB11653BF1300957E49 /* AMAppDelegate.h */,
 				7C653BB21653BF1300957E49 /* AMAppDelegate.m */,
+				7C8CD14816774F0F00578E69 /* SIOViewController.h */,
+				7C8CD14916774F0F00578E69 /* SIOViewController.m */,
+				7C8CD14A16774F0F00578E69 /* SIOViewController.xib */,
 				7C653BA91653BF1300957E49 /* Supporting Files */,
 			);
 			name = "Sugges.ios Example";
@@ -156,6 +170,10 @@
 		7C653BC31653C5D200957E49 /* suggest_ios */ = {
 			isa = PBXGroup;
 			children = (
+				7CF93FFB167773F200CA6CCD /* UIColor+SIO.h */,
+				7CF93FFC167773F200CA6CCD /* UIColor+SIO.m */,
+				7CF93FFD167773F200CA6CCD /* UIImage+SIOButton.h */,
+				7CF93FFE167773F200CA6CCD /* UIImage+SIOButton.m */,
 				7C653BC41653C5D200957E49 /* AMMacros.h */,
 				7C653BC51653C5D200957E49 /* AMMacros.m */,
 				7C653BC61653C5D200957E49 /* AMMarkupParser.h */,
@@ -266,6 +284,7 @@
 				7C8CD13916772D4A00578E69 /* button.png in Resources */,
 				7C8CD13A16772D4A00578E69 /* button@2x.png in Resources */,
 				7C8CD13D1677336900578E69 /* Localizable.strings in Resources */,
+				7C8CD14C16774F0F00578E69 /* SIOViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -284,6 +303,9 @@
 				7C653BCF1653C5D200957E49 /* AMSearchResult.m in Sources */,
 				7C653BD31653CF6C00957E49 /* AMSearchField.m in Sources */,
 				7C653BDF1653D1EA00957E49 /* AMSearchBar.m in Sources */,
+				7C8CD14B16774F0F00578E69 /* SIOViewController.m in Sources */,
+				7CF93FFF167773F200CA6CCD /* UIColor+SIO.m in Sources */,
+				7CF94000167773F200CA6CCD /* UIImage+SIOButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -336,7 +358,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -358,7 +380,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

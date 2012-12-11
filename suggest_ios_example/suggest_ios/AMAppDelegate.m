@@ -29,6 +29,7 @@
 // THE SOFTWARE.
 
 #import "AMAppDelegate.h"
+#import "SIOViewController.h"
 
 @implementation AMAppDelegate
 
@@ -37,6 +38,7 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
+    self.window.rootViewController = [SIOViewController new];
     [self.window makeKeyAndVisible];
     return YES;
 }
