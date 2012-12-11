@@ -29,6 +29,7 @@
 // THE SOFTWARE.
 
 #import "AMMarkupParser.h"
+#import "AMMacros.h"
 
 @interface AMMarkupParser()
 
@@ -44,7 +45,7 @@
 {
     self = [super init];
     if (self) {
-        self.font = @"Helvetica";
+        self.font = SIO_DEFAULT_FONT_NAME;
         self.underlineStyle = kCTUnderlineStyleNone;
     }
     return self;
@@ -80,7 +81,7 @@
                 self.underlineStyle = kCTUnderlineStyleSingle;
             }
             else if([tag hasPrefix:@"/"]) {
-                self.font = @"Helvetica";
+                self.font = SIO_DEFAULT_FONT_NAME;
                 self.underlineStyle = kCTUnderlineStyleNone;
             }
         }

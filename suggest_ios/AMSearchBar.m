@@ -119,7 +119,7 @@ static const CGFloat kBGInsetRight  =  1.0f;
     UIColor *buttonTintColor = [tintColor adjustBrightness:0.8];
 
     self.btnImage = [UIImage buttonImageWithText:NSLocalizedString(@"Cancel", @"")
-                                            font:[UIFont fontWithName:@"Arial Narrow"
+                                            font:[UIFont fontWithName:SIO_DEFAULT_FONT_NAME
                                                                  size:16.0]
                                        textColor:[UIColor whiteColor]
                                        tintColor:buttonTintColor];
@@ -129,7 +129,7 @@ static const CGFloat kBGInsetRight  =  1.0f;
 
 
     self.btnPressedImage = [UIImage pressedButtonImageWithText:NSLocalizedString(@"Cancel", @"")
-                                                          font:[UIFont fontWithName:@"Arial Narrow"
+                                                          font:[UIFont fontWithName:SIO_DEFAULT_FONT_NAME
                                                                                size:16.0]
                                                      textColor:[UIColor colorWithRed:110.0/255.0
                                                                                green:153.0/255.0
@@ -147,7 +147,8 @@ static const CGFloat kBGInsetRight  =  1.0f;
 
 - (void) drawRect:(CGRect)rect
 {
-    UIImage *img = [[UIImage imageNamed:@"bar_bg"] resizableImageWithCapInsets:UIEdgeInsetsMake(kBGInsetTop, kBGInsetLeft, kBGInsetBottom, kBGInsetRight)];
+    UIImage *img = [[UIImage imageNamed:@"bar_bg"] resizableImageWithCapInsets:UIEdgeInsetsMake(kBGInsetTop, kBGInsetLeft,
+                                                                                                kBGInsetBottom, kBGInsetRight)];
     [img drawInRect:rect];
     [self.tintColor set];
     UIRectFillUsingBlendMode(rect, self.blendMode);
