@@ -45,6 +45,7 @@
 - (void) search:(NSString *)searchSubstring;
 - (void) cancelSearch;
 - (void) cancelButtonPressed:(id)sender;
+- (void) setStyle:(AMSearchBarFieldStyle)aStyle;
 
 @end
 
@@ -59,59 +60,73 @@ static const CGFloat kBGInsetBottom = 21.0f;
 static const CGFloat kBGInsetRight  =  1.0f;
 
 
-- (id) initWithStyle:(AMSearchBarFieldStyle)fs rect:(CGRect)rect
+- (id) initWithCoder:(NSCoder *)aDecoder
 {
-    CGRect initRect;
-    if (CGRectEqualToRect(rect, CGRectZero))
-        initRect = (CGRectMake(0, 0, 320, 44));
-    else
-        initRect = rect;
-
-    self = [super initWithFrame:initRect];
-
+    self = [super initWithCoder:aDecoder];
     if (self) {
-
-        CGRect buttonRect = (CGRect){{self.frame.size.width + 1, ceilf((self.frame.size.height - 31) / 2)}, {71, 31}};
-        CGRect fieldRect = (CGRect){{6, ceilf((self.frame.size.height - 31) / 2)}, {self.frame.size.width - 12, 31}};
-
-        self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin;
-        self.autoresizesSubviews = YES;
-
-        self.hasCancelButton = YES;
-        self.cancelButtonTitle = NSLocalizedString(@"Cancel", @"");
-        self.blendMode = kCGBlendModeMultiply;
-
-        self.cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
-
-        self.btnImage = [UIImage imageNamed:@"button"];
-        self.btnPressedImage = [UIImage imageNamed:@"button_pressed"];
-
-        [self.cancelButton setImage:self.btnImage
-                           forState:UIControlStateNormal];
-        [self.cancelButton setImage:self.btnPressedImage
-                           forState:UIControlStateHighlighted];
-        [self.cancelButton setImage:self.btnPressedImage
-                           forState:UIControlStateSelected];
-        self.cancelButton.autoresizingMask = UIViewAutoresizingNone;
-        self.cancelButton.frame = buttonRect;
-        if (self.hasCancelButton) {
-            [self addSubview:self.cancelButton];
-            [self.cancelButton addTarget:self
-                                  action:@selector(cancelButtonPressed:)
-                        forControlEvents:UIControlEventTouchUpInside];
-        }
-
-        AMSearchField *se = [[AMSearchField alloc] initWithFrame:fieldRect style:fs];
-        se.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        self.searchField = se, se = nil;
-        self.searchField.enabled = YES;
-        self.searchField.userInteractionEnabled = YES;
-        [self addSubview:self.searchField];
-        self.searchField.delegate = self;
-        self.searchField.placeholder = NSLocalizedString(@"Suggest.io live search", @"SearchField placeholder text");
+        [self setStyle:AMSearchBarFieldStyleRoundedRect];
     }
     return self;
 }
+
+
+- (id) initWithStyle:(AMSearchBarFieldStyle)fs rect:(CGRect)rect
+{
+    self = [super initWithFrame:rect];
+
+    if (self) {
+        [self setStyle:fs];
+    }
+    return self;
+}
+
+
+- (void) setStyle:(AMSearchBarFieldStyle)aStyle
+{
+    CGRect initRect = self.frame;
+    if (CGRectEqualToRect(initRect, CGRectZero))
+        initRect = (CGRectMake(0, 0, 320, 44));
+
+    CGRect buttonRect = (CGRect){{initRect.size.width + 1, ceilf((initRect.size.height - 31) / 2)}, {71, 31}};
+    CGRect fieldRect = (CGRect){{6, ceilf((initRect.size.height - 31) / 2)}, {initRect.size.width - 12, 31}};
+
+//    self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin;
+    self.autoresizesSubviews = YES;
+
+    self.hasCancelButton = YES;
+    self.cancelButtonTitle = NSLocalizedString(@"Cancel", @"");
+    self.blendMode = kCGBlendModeMultiply;
+
+    self.cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
+
+    self.btnImage = [UIImage imageNamed:@"button"];
+    self.btnPressedImage = [UIImage imageNamed:@"button_pressed"];
+
+    [self.cancelButton setImage:self.btnImage
+                       forState:UIControlStateNormal];
+    [self.cancelButton setImage:self.btnPressedImage
+                       forState:UIControlStateHighlighted];
+    [self.cancelButton setImage:self.btnPressedImage
+                       forState:UIControlStateSelected];
+    self.cancelButton.autoresizingMask = UIViewAutoresizingNone;
+    self.cancelButton.frame = buttonRect;
+
+
+    [self addSubview:self.cancelButton];
+    [self.cancelButton addTarget:self
+                          action:@selector(cancelButtonPressed:)
+                forControlEvents:UIControlEventTouchUpInside];
+
+    AMSearchField *se = [[AMSearchField alloc] initWithFrame:fieldRect style:aStyle];
+    se.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    self.searchField = se, se = nil;
+    self.searchField.enabled = YES;
+    self.searchField.userInteractionEnabled = YES;
+    [self addSubview:self.searchField];
+    self.searchField.delegate = self;
+    self.searchField.placeholder = NSLocalizedString(@"Suggest.io live search", @"SearchField placeholder text");
+}
+
 
 - (void) setTintColor:(UIColor *)tintColor
 {
@@ -150,6 +165,8 @@ static const CGFloat kBGInsetRight  =  1.0f;
     UIImage *img = [[UIImage imageNamed:@"bar_bg"] resizableImageWithCapInsets:UIEdgeInsetsMake(kBGInsetTop, kBGInsetLeft,
                                                                                                 kBGInsetBottom, kBGInsetRight)];
     [img drawInRect:rect];
+    if (self.tintColor == nil)
+        self.tintColor = SIO_DEFAULT_TINT_COLOR;
     [self.tintColor set];
     UIRectFillUsingBlendMode(rect, self.blendMode);
 }
