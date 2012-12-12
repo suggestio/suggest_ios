@@ -1,5 +1,5 @@
 //
-//  AMAppDelegate.m
+//  SIOAppDelegate.m
 //  suggest_ios
 //
 //  Created by Andrey Yurkevich on 11/14/12.
@@ -28,10 +28,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "AMAppDelegate.h"
+#import "SIOAppDelegate.h"
 #import "SIOViewController.h"
 
-@implementation AMAppDelegate
+@implementation SIOAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {

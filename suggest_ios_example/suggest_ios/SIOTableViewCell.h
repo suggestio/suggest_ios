@@ -1,8 +1,8 @@
 //
-//  AMMarkupParser.h
+//  SIOTableViewCell.h
 //  suggest_ios
 //
-//  Created by Andrey Yurkevich on 10/31/12.
+//  Created by Andrey Yurkevich on 12/12/12.
 //  Copyright (c) 2012 Suggest.io. All rights reserved.
 //
 
@@ -28,11 +28,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <Foundation/Foundation.h>
-#import <CoreText/CoreText.h>
+#import <UIKit/UIKit.h>
+#import "SIOSearchResult.h"
 
-@interface AMMarkupParser : NSObject
+@interface SIOTableViewCell : UITableViewCell
 
--(NSAttributedString*) attributedStringFromMarkup:(NSString*)strMarkup;
+@property (nonatomic, strong, setter = setSearchResultEntry:) SIOSearchResult *searchResultEntry;
+
++ (CGFloat) cellHeightForSearchResult:(SIOSearchResult *)entry;
 
 @end

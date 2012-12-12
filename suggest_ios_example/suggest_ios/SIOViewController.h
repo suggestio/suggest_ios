@@ -30,6 +30,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SIOViewController : UIViewController
+@interface SIOViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @end

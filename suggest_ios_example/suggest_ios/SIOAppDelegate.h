@@ -1,8 +1,8 @@
 //
-//  AMSearchRequest.h
+//  SIOAppDelegate.h
 //  suggest_ios
 //
-//  Created by Andrey Yurkevich on 10/23/12.
+//  Created by Andrey Yurkevich on 11/14/12.
 //  Copyright (c) 2012 Suggest.io. All rights reserved.
 //
 
@@ -28,21 +28,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <Foundation/Foundation.h>
-#import "AMSearchBar.h"
+#import <UIKit/UIKit.h>
 
-#define AM_SEARCH_QUEUE_MAX_CONCURRENT_OPERATIONS   2
-#define AM_DEFAULT_REQUEST_TIMEOUT                  20
+@interface SIOAppDelegate : UIResponder <UIApplicationDelegate>
 
-@interface AMSearchRequest : NSObject <AMSearchBarDataSource>
-
-@property (strong) NSOperationQueue *searchQueue;
-
-+ (id) sharedSearchRequest;
-- (void) cancelAllSearches;
-
-// AMSearchBarDataSource methods
-- (void) searchForSubstring:(NSString *)searchSubstring inDomain:(NSString *)searchDomain onCompletion:(SearchCompletionBlock)completionBlock;
-- (void) cancelAllSearchesInDomain:(NSString *)searchDomain;
+@property (strong, nonatomic) UIWindow *window;
 
 @end

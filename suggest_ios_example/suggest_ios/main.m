@@ -30,11 +30,11 @@
 
 #import <UIKit/UIKit.h>
 
-#import "AMAppDelegate.h"
+#import "SIOAppDelegate.h"
 
 int main(int argc, char *argv[])
 {
     @autoreleasepool {
-        return UIApplicationMain(argc, argv, nil, NSStringFromClass([AMAppDelegate class]));
+        return UIApplicationMain(argc, argv, nil, NSStringFromClass([SIOAppDelegate class]));
     }
 }

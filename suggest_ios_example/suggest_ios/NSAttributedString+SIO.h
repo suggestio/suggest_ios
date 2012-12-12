@@ -1,8 +1,8 @@
 //
-//  AMSearchResult.h
+//  NSAttributedString+AMUtils.h
 //  suggest_ios
 //
-//  Created by Andrey Yurkevich on 10/23/12.
+//  Created by Andrey Yurkevich on 11/16/12.
 //  Copyright (c) 2012 Suggest.io. All rights reserved.
 //
 
@@ -29,15 +29,12 @@
 // THE SOFTWARE.
 
 #import <Foundation/Foundation.h>
+#import <CoreText/CoreText.h>
 
-@interface AMSearchResult : NSObject
+@interface NSAttributedString (SIO)
 
-@property (nonatomic, copy, readonly) NSAttributedString *content;
-@property (nonatomic, copy, readonly) NSAttributedString *title;
-@property (nonatomic, copy, readonly) NSURL *url;
-@property (nonatomic, copy, readonly) NSURL *imageURL;
+- (CGSize) sizeToFitForWidth:(CGFloat)maxWidth withFont:(UIFont *)font alignment:(CTTextAlignment)alignment;
 
-- (id) initWithJSON:(NSDictionary *)JSONDict;
-- (NSString *) description;
+- (void) renderInRect:(CGRect)rect withFont:(UIFont *)font color:(UIColor *)color alignment:(CTTextAlignment)alignment;
 
 @end

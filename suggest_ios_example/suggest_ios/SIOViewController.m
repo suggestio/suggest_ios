@@ -29,11 +29,14 @@
 // THE SOFTWARE.
 
 #import "SIOViewController.h"
-#import "AMSearchBar.h"
+#import "SIOSearchBar.h"
+#import "SIOTableViewCell.h"
 
 @interface SIOViewController ()
 
-@property (nonatomic, strong) IBOutlet AMSearchBar *searchBar;
+@property (nonatomic, strong) NSMutableArray *searchResults;
+
+@property (nonatomic, strong) IBOutlet SIOSearchBar *searchBar;
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
     
 @end
@@ -52,13 +55,62 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+
+    self.searchResults = [NSMutableArray array];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardDidShow:)
+                                                 name:UIKeyboardDidShowNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
 }
+
+- (void) viewDidUnload
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+}
+
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
+#pragma mark -
+#pragma mark UITableView delegate / datasource methods
+
+- (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [SIOTableViewCell cellHeightForSearchResult:[self.searchResults objectAtIndex:indexPath.row]];
+}
+
+- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    NSAssert(section == 0, @"SIOViewController: Invalid taleView section (%d)", section);
+    return [self.searchResults count];
+}
+
+- (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *cellId = @"SIOTableCellId";
+    SIOTableViewCell *cell = nil;
+
+    cell = [tableView dequeueReusableCellWithIdentifier:cellId];
+    if (nil == cell) {
+        cell = [[SIOTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+    }
+    cell.searchResultEntry = [self.searchResults objectAtIndex:indexPath.row];
+
+    return (UITableViewCell *) cell;
+}
+
 
 @end
