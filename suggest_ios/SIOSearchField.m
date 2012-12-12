@@ -59,7 +59,6 @@ static const int kMarginY = 0;
         self.autocorrectionType = UITextAutocorrectionTypeNo;
         self.autocapitalizationType = UITextAutocapitalizationTypeNone;
     }
-
     return self;
 }
 
