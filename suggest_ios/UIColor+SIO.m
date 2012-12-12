@@ -37,11 +37,12 @@ static void hsv2rgb (CGFloat h, CGFloat s, CGFloat v, CGFloat* r, CGFloat* g, CG
 
 + (UIColor *) colorWithHTMLColor:(NSUInteger)htmlColor
 {
-    CGFloat xR = (CGFloat) ((NSUInteger) (htmlColor & 0xff0000) >> 16);
-    CGFloat xG = (CGFloat) ((NSUInteger) (htmlColor & 0x00ff00) >> 8);
-    CGFloat xB = (CGFloat) ((NSUInteger) htmlColor & 0x0000ff);
+    CGFloat xA = (CGFloat) ((NSUInteger) (htmlColor & 0xff000000) >> 24);
+    CGFloat xR = (CGFloat) ((NSUInteger) (htmlColor & 0x00ff0000) >> 16);
+    CGFloat xG = (CGFloat) ((NSUInteger) (htmlColor & 0x0000ff00) >> 8);
+    CGFloat xB = (CGFloat) ((NSUInteger) htmlColor & 0x000000ff);
     
-    UIColor *c = [UIColor colorWithRed:xR/255.0 green:xG/255.0 blue:xB/255.0 alpha:1.0];
+    UIColor *c = [UIColor colorWithRed:xR/255.0 green:xG/255.0 blue:xB/255.0 alpha:xA/255.0];
     return c;
 }
 

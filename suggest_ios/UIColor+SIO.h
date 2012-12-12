@@ -31,8 +31,10 @@
 
 @interface UIColor (SIO)
 
+// convert 32-bit integer ARGB representation of color (0xAARRGGBB) to UIColor
 + (UIColor *) colorWithHTMLColor:(NSUInteger)htmlColor;
 
+// set value (brightness) component in HSV representation of UIColor
 - (UIColor *) adjustBrightness:(CGFloat)adjustment;
 
 @end
