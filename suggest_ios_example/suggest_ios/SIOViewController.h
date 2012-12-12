@@ -29,7 +29,8 @@
 // THE SOFTWARE.
 
 #import <UIKit/UIKit.h>
+#import "SIOSearchBar.h"
 
-@interface SIOViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface SIOViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, SIOSearchBarDelegate>
 
 @end
