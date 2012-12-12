@@ -30,6 +30,9 @@
 
 #import "SIOTableViewCell.h"
 #import "NSAttributedString+SIO.h"
+#import "UIImage+SIO.h"
+#import "UIColor+SIO.h"
+
 
 @interface SIOTableViewCell ()
 
@@ -47,12 +50,12 @@
 
 @implementation SIOTableViewCell
 
-static const CGFloat kCellWidth = 320.0;
+static const CGFloat kCellWidth = 300.0;
 static const CGFloat kParagraphSpacing = 3.0;
 static const CGFloat kLineSpacing = 0.0;
 
-#define AM_SIO_TITLE_FONT   [UIFont fontWithName:@"Helvetica-Bold" size:15.0]
-#define AM_SIO_CONTENT_FONT [UIFont fontWithName:@"Helvetica" size:15.0]
+#define SIO_TITLE_FONT   [UIFont fontWithName:@"Helvetica-Bold" size:15.0]
+#define SIO_CONTENT_FONT [UIFont fontWithName:@"Helvetica" size:15.0]
 
 + (CGFloat) cellHeightForSearchResult:(SIOSearchResult *)entry
 {
@@ -60,22 +63,22 @@ static const CGFloat kLineSpacing = 0.0;
     CGFloat height = 0;
 
     if (entry.imageURL)
-        bodyTextWidth -= 60;
+        bodyTextWidth -= (kImageWidth + 10.0);
 
 
     height += [entry.title sizeToFitForWidth:kCellWidth
-                                    withFont:AM_SIO_TITLE_FONT
+                                    withFont:SIO_TITLE_FONT
                                    alignment:kCTLeftTextAlignment].height;
     if (entry.imageURL) {
         height += MAX([entry.content sizeToFitForWidth:bodyTextWidth
-                                              withFont:AM_SIO_CONTENT_FONT
+                                              withFont:SIO_CONTENT_FONT
                                              alignment:kCTLeftTextAlignment].height,
-                      80.0f);
+                      kImageHeight + 10.0);
 
     }
     else {
         height += [entry.content sizeToFitForWidth:bodyTextWidth
-                                          withFont:AM_SIO_CONTENT_FONT
+                                          withFont:SIO_CONTENT_FONT
                                          alignment:kCTLeftTextAlignment].height;
     }
     return height;
@@ -85,7 +88,12 @@ static const CGFloat kLineSpacing = 0.0;
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        // Initialization code
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
+        self.searchResultEntry = nil;
+        self.title = nil;
+        self.content = nil;
+        self.resultImage = nil;
+        self.resultImageView = [[UIImageView alloc] initWithFrame:(CGRect){{0, 0}, {50, 70}}];
     }
     return self;
 }
@@ -95,6 +103,92 @@ static const CGFloat kLineSpacing = 0.0;
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
+}
+
+- (void)setSearchResultEntry:(SIOSearchResult *)e
+{
+    _searchResultEntry = e;
+    self.title = self.searchResultEntry.title;
+    self.content = self.searchResultEntry.content;
+
+    if (self.searchResultEntry.imageURL) {
+        dispatch_queue_t callerQueue = dispatch_get_current_queue();
+        dispatch_queue_t downloadQueue = dispatch_queue_create("suggest.io_download_q", NULL);
+        dispatch_async(downloadQueue, ^{
+            NSURLRequest *req = [NSURLRequest requestWithURL:self.searchResultEntry.imageURL
+                                                 cachePolicy:NSURLRequestReturnCacheDataElseLoad
+                                             timeoutInterval:10.0];
+            NSData *imageData = [NSURLConnection sendSynchronousRequest:req
+                                                      returningResponse:nil
+                                                                  error:nil];
+            if (imageData) {
+                UIImage *img = [UIImage imageWithData:imageData];
+
+                img = [img resizedImageWithContentMode:UIViewContentModeScaleAspectFill
+                                                bounds:kResultImageSize
+                                  interpolationQuality:kCGInterpolationDefault];
+                CGFloat yOff = fabsf(kResultImageSize.height - img.size.height) / 2.0f;
+                CGFloat xOff = fabsf(kResultImageSize.width - img.size.width) / 2.0f;
+                self.resultImage = [[img croppedImage:(CGRect){{xOff, yOff}, kResultImageSize}] applyMask:[UIImage imageNamed:@"mask50x70"]];
+                dispatch_async(callerQueue, ^{
+                    [self setNeedsDisplay];
+                });
+            }
+        });
+    }
+    else {
+        self.resultImage = nil;
+        self.resultImageView.image = nil;
+        [self.resultImageView removeFromSuperview];
+        [self setNeedsDisplay];
+    }
+}
+
+
+- (void)drawRect:(CGRect)rect
+{
+    @autoreleasepool {
+        CGFloat bodyTextWidth = kCellWidth;
+        if (self.searchResultEntry.imageURL)
+            bodyTextWidth -= 60.0;
+
+
+        CGFloat titleHeight = [self.title sizeToFitForWidth:kCellWidth
+                                                   withFont:SIO_TITLE_FONT
+                                                  alignment:kCTLeftTextAlignment].height;
+        CGFloat contentHeight = [self.content sizeToFitForWidth:bodyTextWidth
+                                                       withFont:SIO_CONTENT_FONT
+                                                      alignment:kCTLeftTextAlignment].height;
+
+        CGRect titleRect = (CGRect) {{10.0f, 0.0f}, {300.0f, titleHeight}};
+        CGRect contentRect = (CGRect) {{10.0f, 0.0f - titleHeight }, {300.0f, contentHeight}};
+
+        if (self.searchResultEntry.imageURL) {
+            contentRect.origin.x += 60.0f;
+            contentRect.size.width -= 60.0f;
+        }
+
+        if (self.resultImage) {
+            if (! self.resultImageView.superview) {
+                self.resultImageView.frame = (CGRect){{10, titleHeight + 10}, {50, 70}};
+                [self.contentView addSubview:self.resultImageView];
+                self.resultImageView.image = self.resultImage;
+            }
+            else {
+                self.resultImageView.frame = (CGRect){{10, titleHeight + 10}, {50, 70}};
+            }
+        }
+
+        [self.title renderInRect:titleRect
+                        withFont:SIO_TITLE_FONT
+                           color:[UIColor colorWithHTMLColor:0xFF000099]
+                       alignment:kCTLeftTextAlignment];
+
+        [self.content renderInRect:contentRect
+                          withFont:SIO_CONTENT_FONT
+                             color:[UIColor colorWithHTMLColor:0xFF666666]
+                         alignment:kCTLeftTextAlignment];
+    }
 }
 
 
