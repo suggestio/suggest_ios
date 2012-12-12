@@ -119,11 +119,13 @@ static CGImageRef createMaskWithImage(CGImageRef image)
     return img;
 }
 
+
 + (UIImage *) buttonImageWithText:(NSString *)captionText font:(UIFont *)font textColor:(UIColor *)color tintColor:(UIColor *)tintColor
 {
     UIImage *btnImage = [UIImage imageNamed:@"button"];
     return [btnImage btnImageWithText:captionText font:font textColor:color tintColor:tintColor];
 }
+
 
 + (UIImage *) pressedButtonImageWithText:(NSString *)captionText font:(UIFont *)font textColor:(UIColor *)color tintColor:(UIColor *)tintColor
 {

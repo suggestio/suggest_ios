@@ -1,8 +1,8 @@
 //
-//  main.m
+//  SIOSearchRequest.h
 //  suggest_ios
 //
-//  Created by Andrey Yurkevich on 11/14/12.
+//  Created by Andrey Yurkevich on 10/23/12.
 //  Copyright (c) 2012 Suggest.io. All rights reserved.
 //
 
@@ -28,13 +28,21 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import "SIOSearchBar.h"
 
-#import "SIOAppDelegate.h"
+#define SIO_SEARCH_QUEUE_MAX_CONCURRENT_OPERATIONS   2
+#define SIO_DEFAULT_REQUEST_TIMEOUT                  20
 
-int main(int argc, char *argv[])
-{
-    @autoreleasepool {
-        return UIApplicationMain(argc, argv, nil, NSStringFromClass([SIOAppDelegate class]));
-    }
-}
+@interface SIOSearchRequest : NSObject <SIOSearchBarDataSource>
+
+@property (strong) NSOperationQueue *searchQueue;
+
++ (id) sharedSearchRequest;
+- (void) cancelAllSearches;
+
+// SIOSearchBarDataSource methods
+- (void) searchForSubstring:(NSString *)searchSubstring inDomain:(NSString *)searchDomain onCompletion:(SearchCompletionBlock)completionBlock;
+- (void) cancelAllSearchesInDomain:(NSString *)searchDomain;
+
+@end

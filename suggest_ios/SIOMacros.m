@@ -1,8 +1,8 @@
 //
-//  AMAppDelegate.h
+//  SIOMacros.c
 //  suggest_ios
 //
-//  Created by Andrey Yurkevich on 11/14/12.
+//  Created by Andrey Yurkevich on 10/29/12.
 //  Copyright (c) 2012 Suggest.io. All rights reserved.
 //
 
@@ -28,10 +28,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <UIKit/UIKit.h>
+#import "SIOMacros.h"
 
-@interface AMAppDelegate : UIResponder <UIApplicationDelegate>
 
-@property (strong, nonatomic) UIWindow *window;
-
-@end

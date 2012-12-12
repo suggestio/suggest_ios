@@ -29,11 +29,15 @@
 // THE SOFTWARE.
 
 #import "SIOViewController.h"
-#import "AMSearchBar.h"
+#import "SIOSearchBar.h"
+#import "SIOTableViewCell.h"
+#import "SIOSearchRequest.h"
 
 @interface SIOViewController ()
 
-@property (nonatomic, strong) IBOutlet AMSearchBar *searchBar;
+@property (nonatomic, strong) NSMutableArray *searchResults;
+
+@property (nonatomic, strong) IBOutlet SIOSearchBar *searchBar;
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
     
 @end
@@ -49,16 +53,159 @@
     return self;
 }
 
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+
+    self.searchResults = [NSMutableArray array];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    self.searchBar.delegate = self;
+    self.searchBar.datasource = [SIOSearchRequest sharedSearchRequest];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardDidShow:)
+                                                 name:UIKeyboardDidShowNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
 }
+
+
+- (void) viewDidUnload
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+}
+
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+
+#pragma mark -
+#pragma mark UITableView delegate / datasource methods
+
+- (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [SIOTableViewCell cellHeightForSearchResult:[self.searchResults objectAtIndex:indexPath.row]] + 6.0;
+}
+
+- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    NSAssert(section == 0, @"SIOViewController: Invalid taleView section (%d)", section);
+    return [self.searchResults count];
+}
+
+- (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *cellId = @"SIOTableCellId";
+    SIOTableViewCell *cell = nil;
+
+    cell = [tableView dequeueReusableCellWithIdentifier:cellId];
+    if (nil == cell) {
+        cell = [[SIOTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+    }
+    cell.searchResultEntry = [self.searchResults objectAtIndex:indexPath.row];
+
+    return (UITableViewCell *) cell;
+}
+
+
+- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    SIOSearchResult *e = [self.searchResults objectAtIndex:indexPath.row];
+    NSURL *url = e.url;
+    [[UIApplication sharedApplication] openURL:url];
+}
+
+
+#pragma mark -
+#pragma mark - Keyboard notification handlers
+
+-(void) keyboardDidShow:(NSNotification *)notification
+{
+    NSValue *v = [[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey];
+    CGRect keyboardRect = [v CGRectValue];
+    CGRect tableRect = self.tableView.frame;
+    tableRect.size.height -= keyboardRect.size.height;
+    tableRect.origin.y = self.searchBar.frame.size.height;
+    self.tableView.frame = tableRect;
+}
+
+-(void) keyboardWillHide:(NSNotification *)notif
+{
+    CGRect tableRect = self.view.frame;
+    tableRect.size.height -= self.searchBar.frame.size.height;
+    tableRect.origin.y = self.searchBar.frame.size.height;
+    self.tableView.frame = tableRect;
+}
+
+
+#pragma mark -
+#pragma mark SIOSearchBar delegate methods
+
+static NSOperationQueue *cellsQueue = nil;
+
+
+- (void) addSearchResult:(SIOSearchResult *)entry
+{
+    static dispatch_once_t oncePredicate;
+    dispatch_once(&oncePredicate, ^{
+        cellsQueue = [[NSOperationQueue alloc] init];
+        [cellsQueue setMaxConcurrentOperationCount:1];
+    });
+
+    [cellsQueue addOperationWithBlock:^{
+        [self.tableView beginUpdates];
+        [self.searchResults insertObject:entry atIndex:0];
+        [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0
+                                                                    inSection:0]]
+                              withRowAnimation:UITableViewRowAnimationTop];
+        [self.tableView endUpdates];
+    }];
+}
+
+
+- (void) removeSearchResult:(SIOSearchResult *)entry
+{
+    static dispatch_once_t oncePredicate;
+    dispatch_once(&oncePredicate, ^{
+        cellsQueue = [[NSOperationQueue alloc] init];
+        [cellsQueue setMaxConcurrentOperationCount:1];
+    });
+
+    [cellsQueue addOperationWithBlock:^{
+        [self.searchResults removeObjectIdenticalTo:entry];
+    }];
+}
+
+- (NSString *) searchBarQueryDomain:(SIOSearchBar *)searchBar
+{
+    return @"aversimage.ru";
+}
+
+
+- (void) searchBarWasDismissed:(SIOSearchBar *)searchBar
+{
+    NSLog(@"SIOSeachBar was dismissed");
+}
+
+- (void) searchBar:(SIOSearchBar *)searchBar didStartSearching:(NSString *)searchSubstring
+{
+    NSLog(@"Started search for %@", searchSubstring);
+}
+
+
+- (void) searchBar:(SIOSearchBar *)searchBar didEndSearching:(NSString *)searchSubstring returningResults:(NSArray *)searchResults
+{
+    self.searchResults  = [NSMutableArray arrayWithArray:searchResults];
+    [self.tableView reloadData];
 }
 
 @end

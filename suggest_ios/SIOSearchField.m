@@ -1,5 +1,5 @@
 //
-//  AMSearchField.m
+//  SIOSearchField.m
 //  suggest_ios
 //
 //  Created by Andrey Yurkevich on 10/23/12.
@@ -28,15 +28,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "AMSearchField.h"
+#import "SIOSearchField.h"
 
-@implementation AMSearchField
+@implementation SIOSearchField
 
 static const int kMarginX = 3;
 static const int kMarginY = 0;
 
 
-- (id) initWithFrame:(CGRect)frame style:(AMSearchBarFieldStyle)fs
+- (id) initWithFrame:(CGRect)frame style:(SIOSearchBarFieldStyle)fs
 {
     self = [super initWithFrame:frame];
     if (self) {
@@ -48,7 +48,6 @@ static const int kMarginY = 0;
         self.returnKeyType = UIReturnKeySearch;
         self.clearButtonMode = UITextFieldViewModeAlways;
         self.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-//        self.placeholder = NSLocalizedString(@"Suggest.io live search", @"SearchField placeholder text");
 
         UIImageView *iv = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"accessory_search"]];
         iv.frame = CGRectMake(0, 0, 28, 24);
@@ -60,26 +59,25 @@ static const int kMarginY = 0;
         self.autocorrectionType = UITextAutocorrectionTypeNo;
         self.autocapitalizationType = UITextAutocapitalizationTypeNone;
     }
-
     return self;
 }
 
 
-- (void) setFieldStyle:(AMSearchBarFieldStyle)fs
+- (void) setFieldStyle:(SIOSearchBarFieldStyle)fs
 {
     switch (fs) {
-        case AMSearchBarFieldStyleOval:
+        case SIOSearchBarFieldStyleOval:
             self.borderStyle = UITextBorderStyleNone;
             self.background = [[UIImage imageNamed:@"search_bar_border"] resizableImageWithCapInsets:UIEdgeInsetsMake(15, 17, 15, 17)];
             break;
 
-        case AMSearchBarFieldStyleRoundedRect:
+        case SIOSearchBarFieldStyleRoundedRect:
             self.borderStyle = UITextBorderStyleRoundedRect;
             self.background = nil;
             self.background = [[UIImage imageNamed:@"textfield_bar_border"] resizableImageWithCapInsets:UIEdgeInsetsMake(15, 17, 15, 17)];
             break;
 
-        case AMSearchBarFieldStyleCustom:
+        case SIOSearchBarFieldStyleCustom:
             self.background = nil;
             self.borderStyle = UITextBorderStyleNone;
 
@@ -95,7 +93,7 @@ static const int kMarginY = 0;
 - (CGRect) textRectForBounds:(CGRect)bounds
 {
     CGRect inset = [super textRectForBounds:bounds];
-    if (self.fieldStyle == AMSearchBarFieldStyleOval) {
+    if (self.fieldStyle == SIOSearchBarFieldStyleOval) {
         inset.origin.y += kMarginY;
         inset.origin.x += kMarginX;
     }
@@ -106,7 +104,7 @@ static const int kMarginY = 0;
 - (CGRect) editingRectForBounds:(CGRect)bounds
 {
     CGRect inset = [super editingRectForBounds:bounds];
-    if (self.fieldStyle == AMSearchBarFieldStyleOval) {
+    if (self.fieldStyle == SIOSearchBarFieldStyleOval) {
         inset.origin.y += kMarginY;
         inset.origin.x += kMarginX;
     }

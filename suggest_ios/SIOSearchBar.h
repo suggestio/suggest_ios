@@ -1,5 +1,5 @@
 //
-//  AMSearchBar.h
+//  SIOSearchBar.h
 //  suggest_ios
 //
 //  Created by Andrey Yurkevich on 11/06/12.
@@ -30,19 +30,19 @@
 
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
-#import "AMSearchField.h"
+#import "SIOSearchField.h"
 
-@class AMSearchBar;
+@class SIOSearchBar;
 
 
 /**
- * AMSearchBarDataSource protocol defines the methods that a datasource object should implement. Basically,
+ * SIOSearchBarDataSource protocol defines the methods that a datasource object should implement. Basically,
  * the delegate object is responsible of performing HTTP request to the Suggest.io server, passing the target
- * domain and a substring to search in the request and returing an array of AMSearchResult objects that it reads
+ * domain and a substring to search in the request and returing an array of SIOSearchResult objects that it reads
  * in the HTTP response.
  *
  */
-@protocol AMSearchBarDataSource <NSObject>
+@protocol SIOSearchBarDataSource <NSObject>
 
 /**
  * definition for the onCompletion block for datasource search request
@@ -56,7 +56,7 @@ typedef void (^SearchCompletionBlock)(NSArray *items, NSError *error);
  * Performs the HTTP request to the Suggest.io server, calling the SearchCompletionBlock when the results are received.
  *
  * The Suggest.io server returns results serialized into a JSON array. After the result is received, the datasource
- * object needs to parse the response and create an array of AMSearchResult objects, passing it to the completionBlock.
+ * object needs to parse the response and create an array of SIOSearchResult objects, passing it to the completionBlock.
  *
  * @param searchSubsting The substring to search for
  * @param searchDomain The domain name where the search should be performed
@@ -81,62 +81,62 @@ typedef void (^SearchCompletionBlock)(NSArray *items, NSError *error);
 
 
 /**
- * AMSearchBarDelegate is the protocol for the AMSearchBar's delegate object. The delegate is responsible
- * for providing the domain name for the search. It is also notified when the search is srarted/cancelled/completed
- * receiving the search results as an array of AMSearchResult objects.
+ * Protocol for the SIOSearchBar's delegate object. The delegate is responsible
+ * for providing the domain name for the search. It also receives notifications when the search is
+ * srarted/cancelled/completed receiving the search results as an array of SIOSearchResult objects.
  */
-@protocol AMSearchBarDelegate <NSObject>
+@protocol SIOSearchBarDelegate <NSObject>
 @required
 
 /**
  * Provides the domain name where the search should be performed.
  *
- * @param searchBar The instance of AMSearchBar that has requested the domain name for searching
+ * @param searchBar The instance of SIOSearchBar that has requested the domain name for searching
  * @return The domain name where the search should be performed
  */
-- (NSString *)searchBarQueryDomain:(AMSearchBar *)searchBar;
+- (NSString *)searchBarQueryDomain:(SIOSearchBar *)searchBar;
 
 /**
  * Notifies the delegate thet the search bar has been dismissed.
  *
- * @param searchBar The instance of AMSearchBar that has been dismissed
+ * @param searchBar The instance of SIOSearchBar that has been dismissed
  *
  */
-- (void)searchBarWasDismissed:(AMSearchBar *)searchBar;
+- (void)searchBarWasDismissed:(SIOSearchBar *)searchBar;
 
 @optional
 /**
  * Called when the search is started
  *
- * @param searchBar The instance of AMSearchBar that has initiated the search
+ * @param searchBar The instance of SIOSearchBar that has initiated the search
  * @param searchSubstring The search substring
  *
  * @see searchBarDidCancelSearch:
  * @see searchBar:didEndSearching:returningResults:
  */
-- (void)searchBar:(AMSearchBar *)searchBar didStartSearching:(NSString *)searchSubstring;
+- (void)searchBar:(SIOSearchBar *)searchBar didStartSearching:(NSString *)searchSubstring;
 
 /**
  * Called when the search is finished
  *
- * @param searchBar The instance of AMSearchBar that has initiated the search
+ * @param searchBar The instance of SIOSearchBar that has initiated the search
  * @param searchSubstring The search substring
- * @param searchResults An array of AMSearchResult objects (or an empty array if there were no search results returned from the server)
+ * @param searchResults An array of SIOSearchResult objects (or an empty array if there were no search results returned from the server)
  *
  * @see searchBar:didStartSearching:
  * @see searchBarDidCancelSearch:
  */
-- (void)searchBar:(AMSearchBar *)searchBar didEndSearching:(NSString *)searchSubstring returningResults:(NSArray *)searchResults;
+- (void)searchBar:(SIOSearchBar *)searchBar didEndSearching:(NSString *)searchSubstring returningResults:(NSArray *)searchResults;
 
 /**
  * Called when the search is cancelled
  *
- * @param searchBar The instance of AMSearchBar that has initiated the search
+ * @param searchBar The instance of SIOSearchBar that has initiated the search
  *
  * @see searchBar:didStartSearching:
  * @see searchBar:didEndSearching:returningResults:
  */
-- (void)searchBarDidCancelSearch:(AMSearchBar *)searchBar;
+- (void)searchBarDidCancelSearch:(SIOSearchBar *)searchBar;
 @end
 
 
@@ -148,7 +148,7 @@ typedef void (^SearchCompletionBlock)(NSArray *items, NSError *error);
  * The search itself is performed by a datasource object.
  *
  */
-@interface AMSearchBar : UIView <UITextFieldDelegate>
+@interface SIOSearchBar : UIView <UITextFieldDelegate>
 
 
 /**
@@ -182,19 +182,19 @@ typedef void (^SearchCompletionBlock)(NSArray *items, NSError *error);
  *
  * @see datasource
  */
-@property (atomic, unsafe_unretained) id<AMSearchBarDelegate> delegate;
+@property (atomic, unsafe_unretained) id<SIOSearchBarDelegate> delegate;
 
 /**
  * Search bar data source object
  *
  * @see delegate
  */
-@property (atomic, unsafe_unretained) id<AMSearchBarDataSource> datasource;
+@property (atomic, unsafe_unretained) id<SIOSearchBarDataSource> datasource;
 
 /**
- * The designated initializer for AMSearchBar
+ * The designated initializer for SIOSearchBar
  */
-- (id) initWithStyle:(AMSearchBarFieldStyle)fs rect:(CGRect)rect;
+- (id) initWithStyle:(SIOSearchBarFieldStyle)fs rect:(CGRect)rect;
 
 /**
  * Toggles the search bar to show/hide the activity indicator

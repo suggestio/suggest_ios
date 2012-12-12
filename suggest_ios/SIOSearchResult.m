@@ -1,5 +1,5 @@
 //
-//  AMSearchResult.m
+//  SIOSearchResult.m
 //  suggest_ios
 //
 //  Created by Andrey Yurkevich on 10/23/12.
@@ -28,10 +28,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "AMSearchResult.h"
-#import "AMMarkupParser.h"
+#import "SIOSearchResult.h"
+#import "SIOMarkupParser.h"
 
-@interface AMSearchResult ()
+@interface SIOSearchResult ()
 
 @property (nonatomic, copy, readwrite) NSAttributedString *content;
 @property (nonatomic, copy, readwrite) NSAttributedString *title;
@@ -41,13 +41,13 @@
 @end
 
 
-@implementation AMSearchResult
+@implementation SIOSearchResult
 
 - (id) initWithJSON:(NSDictionary *)JSONDict
 {
     self = [super init];
     if (self) {
-        AMMarkupParser* p = [[AMMarkupParser alloc] init];
+        SIOMarkupParser* p = [[SIOMarkupParser alloc] init];
 
         if ([[JSONDict valueForKey:@"content_text"] isKindOfClass:[NSArray class]]) {
             NSMutableString *strContentText = [NSMutableString string];

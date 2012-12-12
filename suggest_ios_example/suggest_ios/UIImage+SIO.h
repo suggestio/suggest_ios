@@ -1,8 +1,8 @@
 //
-//  AMMarkupParser.h
+//  UIImage+SIO.h
 //  suggest_ios
 //
-//  Created by Andrey Yurkevich on 10/31/12.
+//  Created by Andrey Yurkevich on 8/28/12.
 //  Copyright (c) 2012 Suggest.io. All rights reserved.
 //
 
@@ -28,11 +28,21 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <Foundation/Foundation.h>
-#import <CoreText/CoreText.h>
+#import <UIKit/UIKit.h>
 
-@interface AMMarkupParser : NSObject
+@interface UIImage (SIO)
 
--(NSAttributedString*) attributedStringFromMarkup:(NSString*)strMarkup;
+// methods for adding an alpha layer to an image
+- (BOOL)hasAlpha;
+- (UIImage *) imageWithAlpha;
+- (UIImage *) transparentBorderImage:(NSUInteger)borderSize;
+
+// methods for resizing/cropping
+- (UIImage *) croppedImage:(CGRect)bounds;
+- (UIImage *) resizedImage:(CGSize)newSize interpolationQuality:(CGInterpolationQuality)quality;
+- (UIImage *) resizedImageWithContentMode:(UIViewContentMode)contentMode bounds:(CGSize)bounds interpolationQuality:(CGInterpolationQuality)quality;
+
+// image masking methods
+- (UIImage *) applyMask:(UIImage *)maskImage;
 
 @end

@@ -1,5 +1,5 @@
 //
-//  AMSearchBar.m
+//  SIOSearchBar.m
 //  suggest_ios
 //
 //  Created by Andrey Yurkevich on 11/06/12.
@@ -28,14 +28,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "AMSearchBar.h"
-#import "AMMacros.h"
+#import "SIOSearchBar.h"
+#import "SIOMacros.h"
 #import "UIImage+SIOButton.h"
 #import "UIColor+SIO.h"
 
-@interface AMSearchBar ()
+@interface SIOSearchBar ()
 
-@property (nonatomic, strong, readwrite) AMSearchField *searchField;
+@property (nonatomic, strong, readwrite) SIOSearchField *searchField;
 @property (nonatomic, strong) UIImageView *backgroundView;
 @property (nonatomic, strong) NSTimer *inputTimer;
 @property (nonatomic, strong) UIButton *cancelButton;
@@ -45,13 +45,13 @@
 - (void) search:(NSString *)searchSubstring;
 - (void) cancelSearch;
 - (void) cancelButtonPressed:(id)sender;
-- (void) setStyle:(AMSearchBarFieldStyle)aStyle;
+- (void) setStyle:(SIOSearchBarFieldStyle)aStyle;
 
 @end
 
 
 
-@implementation AMSearchBar
+@implementation SIOSearchBar
 
 // search bar edge insets
 static const CGFloat kBGInsetTop    = 21.0f;
@@ -64,13 +64,13 @@ static const CGFloat kBGInsetRight  =  1.0f;
 {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        [self setStyle:AMSearchBarFieldStyleRoundedRect];
+        [self setStyle:SIOSearchBarFieldStyleRoundedRect];
     }
     return self;
 }
 
 
-- (id) initWithStyle:(AMSearchBarFieldStyle)fs rect:(CGRect)rect
+- (id) initWithStyle:(SIOSearchBarFieldStyle)fs rect:(CGRect)rect
 {
     self = [super initWithFrame:rect];
 
@@ -81,7 +81,7 @@ static const CGFloat kBGInsetRight  =  1.0f;
 }
 
 
-- (void) setStyle:(AMSearchBarFieldStyle)aStyle
+- (void) setStyle:(SIOSearchBarFieldStyle)aStyle
 {
     CGRect initRect = self.frame;
     if (CGRectEqualToRect(initRect, CGRectZero))
@@ -117,7 +117,7 @@ static const CGFloat kBGInsetRight  =  1.0f;
                           action:@selector(cancelButtonPressed:)
                 forControlEvents:UIControlEventTouchUpInside];
 
-    AMSearchField *se = [[AMSearchField alloc] initWithFrame:fieldRect style:aStyle];
+    SIOSearchField *se = [[SIOSearchField alloc] initWithFrame:fieldRect style:aStyle];
     se.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     self.searchField = se, se = nil;
     self.searchField.enabled = YES;
@@ -236,7 +236,7 @@ static const CGFloat kBGInsetRight  =  1.0f;
 
 - (BOOL) textFieldShouldReturn:(UITextField *)textField
 {
-    if ([textField isKindOfClass:[AMSearchField class]]) {
+    if ([textField isKindOfClass:[SIOSearchField class]]) {
         [textField resignFirstResponder];
         [self search:textField.text];
         return NO;
@@ -249,7 +249,7 @@ static const CGFloat kBGInsetRight  =  1.0f;
 
 - (BOOL) textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-    if ([textField isKindOfClass:[AMSearchField class]]) {
+    if ([textField isKindOfClass:[SIOSearchField class]]) {
         if ((textField.text.length == 0) && (range.length == 0) && (string.length > 0)) {
             [self cancelSearch];
             if (self.inputTimer)
@@ -284,7 +284,7 @@ static const CGFloat kBGInsetRight  =  1.0f;
 
 - (BOOL) textFieldShouldClear:(UITextField *)textField
 {
-    if ([textField isKindOfClass:[AMSearchField class]]) {
+    if ([textField isKindOfClass:[SIOSearchField class]]) {
         if (self.inputTimer) {
             [self.inputTimer invalidate];
         }

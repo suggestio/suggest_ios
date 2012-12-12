@@ -1,5 +1,5 @@
 //
-//  AMMarkupParser.m
+//  SIOMarkupParser.m
 //  suggest_ios
 //
 //  Created by Andrey Yurkevich on 10/31/12.
@@ -28,10 +28,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "AMMarkupParser.h"
-#import "AMMacros.h"
+#import "SIOMarkupParser.h"
+#import "SIOMacros.h"
 
-@interface AMMarkupParser()
+@interface SIOMarkupParser()
 
 @property (nonatomic, strong) NSString *font;
 @property (assign) CTUnderlineStyle underlineStyle;
@@ -39,7 +39,7 @@
 @end
 
 
-@implementation AMMarkupParser
+@implementation SIOMarkupParser
 
 -(id)init
 {

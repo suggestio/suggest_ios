@@ -1,5 +1,5 @@
 //
-//  AMSearchRequest.m
+//  SIOSearchRequest.m
 //  suggest_ios
 //
 //  Created by Andrey Yurkevich on 10/23/12.
@@ -28,17 +28,17 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "AMSearchRequest.h"
-#import "AMSearchResult.h"
-#import "AMMacros.h"
+#import "SIOSearchRequest.h"
+#import "SIOSearchResult.h"
+#import "SIOMacros.h"
 
 
-@interface AMSearchRequest ()
+@interface SIOSearchRequest ()
 - (id) init;
 @end
 
 
-@implementation AMSearchRequest
+@implementation SIOSearchRequest
 
 + (id) sharedSearchRequest
 {
@@ -47,7 +47,7 @@
 
     dispatch_once(&pred,
                   ^{
-                      sharedSearchRequest = [[AMSearchRequest alloc] init];
+                      sharedSearchRequest = [[SIOSearchRequest alloc] init];
                   });
 
     return sharedSearchRequest;
@@ -59,7 +59,7 @@
     self = [super init];
     if (self != nil) {
         _searchQueue = [[NSOperationQueue alloc] init];
-        _searchQueue.maxConcurrentOperationCount = AM_SEARCH_QUEUE_MAX_CONCURRENT_OPERATIONS;
+        _searchQueue.maxConcurrentOperationCount = SIO_SEARCH_QUEUE_MAX_CONCURRENT_OPERATIONS;
     }
     return self;
 }
@@ -72,7 +72,7 @@
 
 
 #pragma mark -
-#pragma mark AMSearchBarDataSource methods
+#pragma mark SIOSearchBarDataSource methods
 
 - (void) searchForSubstring:(NSString *)searchSubstring inDomain:(NSString *)searchDomain onCompletion:(SearchCompletionBlock)completionBlock
 {
@@ -95,7 +95,7 @@
                             relativeToURL:[NSURL URLWithString:@"https://suggest.io/"]];
         NSURLRequest *request = [NSURLRequest requestWithURL:url
                                                  cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
-                                             timeoutInterval:AM_DEFAULT_REQUEST_TIMEOUT];
+                                             timeoutInterval:SIO_DEFAULT_REQUEST_TIMEOUT];
 
         NSData *data = [NSURLConnection sendSynchronousRequest:request
                                              returningResponse:&response
@@ -109,11 +109,12 @@
             NSDictionary *JSON = [NSJSONSerialization JSONObjectWithData:[jsonString dataUsingEncoding:NSUTF8StringEncoding]
                                                                  options:0
                                                                    error:&error];
+            // FIXME: check json error
             NSArray *searchResults = [JSON objectForKey:@"search_result"];
 
             // Serialize JSON response
             for (NSDictionary *searchResultItem in searchResults) {
-                AMSearchResult *sr = [[AMSearchResult alloc] initWithJSON:searchResultItem];
+                SIOSearchResult *sr = [[SIOSearchResult alloc] initWithJSON:searchResultItem];
                 [searchResultItems addObject:sr];
             }
             

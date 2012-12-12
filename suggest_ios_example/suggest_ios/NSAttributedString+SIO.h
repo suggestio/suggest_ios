@@ -1,8 +1,8 @@
 //
-//  AMSearchRequest.h
+//  NSAttributedString+AMUtils.h
 //  suggest_ios
 //
-//  Created by Andrey Yurkevich on 10/23/12.
+//  Created by Andrey Yurkevich on 11/16/12.
 //  Copyright (c) 2012 Suggest.io. All rights reserved.
 //
 
@@ -29,20 +29,12 @@
 // THE SOFTWARE.
 
 #import <Foundation/Foundation.h>
-#import "AMSearchBar.h"
+#import <CoreText/CoreText.h>
 
-#define AM_SEARCH_QUEUE_MAX_CONCURRENT_OPERATIONS   2
-#define AM_DEFAULT_REQUEST_TIMEOUT                  20
+@interface NSAttributedString (SIO)
 
-@interface AMSearchRequest : NSObject <AMSearchBarDataSource>
+- (CGSize) sizeToFitForWidth:(CGFloat)maxWidth withFont:(UIFont *)font alignment:(CTTextAlignment)alignment;
 
-@property (strong) NSOperationQueue *searchQueue;
-
-+ (id) sharedSearchRequest;
-- (void) cancelAllSearches;
-
-// AMSearchBarDataSource methods
-- (void) searchForSubstring:(NSString *)searchSubstring inDomain:(NSString *)searchDomain onCompletion:(SearchCompletionBlock)completionBlock;
-- (void) cancelAllSearchesInDomain:(NSString *)searchDomain;
+- (void) renderInRect:(CGRect)rect withFont:(UIFont *)font color:(UIColor *)color alignment:(CTTextAlignment)alignment;
 
 @end

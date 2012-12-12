@@ -1,5 +1,5 @@
 //
-//  AMSearchResult.h
+//  SIOSearchField.h
 //  suggest_ios
 //
 //  Created by Andrey Yurkevich on 10/23/12.
@@ -28,16 +28,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
-@interface AMSearchResult : NSObject
+typedef enum {
+    SIOSearchBarFieldStyleOval           = 0,
+    SIOSearchBarFieldStyleRoundedRect    = 1,
+    SIOSearchBarFieldStyleCustom         = 2
+} SIOSearchBarFieldStyle;
 
-@property (nonatomic, copy, readonly) NSAttributedString *content;
-@property (nonatomic, copy, readonly) NSAttributedString *title;
-@property (nonatomic, copy, readonly) NSURL *url;
-@property (nonatomic, copy, readonly) NSURL *imageURL;
+@interface SIOSearchField : UITextField
 
-- (id) initWithJSON:(NSDictionary *)JSONDict;
-- (NSString *) description;
+@property (assign, nonatomic, setter = setFieldStyle:) SIOSearchBarFieldStyle fieldStyle;
+
+- (id) initWithFrame:(CGRect)frame style:(SIOSearchBarFieldStyle)fs;
 
 @end
+

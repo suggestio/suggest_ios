@@ -1,8 +1,8 @@
 //
-//  AMMacros.c
+//  SIOMarkupParser.h
 //  suggest_ios
 //
-//  Created by Andrey Yurkevich on 10/29/12.
+//  Created by Andrey Yurkevich on 10/31/12.
 //  Copyright (c) 2012 Suggest.io. All rights reserved.
 //
 
@@ -28,6 +28,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "AMMacros.h"
+#import <Foundation/Foundation.h>
+#import <CoreText/CoreText.h>
 
+@interface SIOMarkupParser : NSObject
 
+-(NSAttributedString*) attributedStringFromMarkup:(NSString*)strMarkup;
+
+@end

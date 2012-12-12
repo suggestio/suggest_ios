@@ -1,8 +1,8 @@
 //
-//  AMSearchField.h
+//  SIOAppDelegate.h
 //  suggest_ios
 //
-//  Created by Andrey Yurkevich on 10/23/12.
+//  Created by Andrey Yurkevich on 11/14/12.
 //  Copyright (c) 2012 Suggest.io. All rights reserved.
 //
 
@@ -30,17 +30,8 @@
 
 #import <UIKit/UIKit.h>
 
-typedef enum {
-    AMSearchBarFieldStyleOval           = 0,
-    AMSearchBarFieldStyleRoundedRect    = 1,
-    AMSearchBarFieldStyleCustom         = 2
-} AMSearchBarFieldStyle;
+@interface SIOAppDelegate : UIResponder <UIApplicationDelegate>
 
-@interface AMSearchField : UITextField
-
-@property (assign, nonatomic, setter = setFieldStyle:) AMSearchBarFieldStyle fieldStyle;
-
-- (id) initWithFrame:(CGRect)frame style:(AMSearchBarFieldStyle)fs;
+@property (strong, nonatomic) UIWindow *window;
 
 @end
-

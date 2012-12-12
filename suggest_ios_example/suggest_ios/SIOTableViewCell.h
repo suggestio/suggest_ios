@@ -1,8 +1,8 @@
 //
-//  main.m
+//  SIOTableViewCell.h
 //  suggest_ios
 //
-//  Created by Andrey Yurkevich on 11/14/12.
+//  Created by Andrey Yurkevich on 12/12/12.
 //  Copyright (c) 2012 Suggest.io. All rights reserved.
 //
 
@@ -29,12 +29,12 @@
 // THE SOFTWARE.
 
 #import <UIKit/UIKit.h>
+#import "SIOSearchResult.h"
 
-#import "SIOAppDelegate.h"
+@interface SIOTableViewCell : UITableViewCell
 
-int main(int argc, char *argv[])
-{
-    @autoreleasepool {
-        return UIApplicationMain(argc, argv, nil, NSStringFromClass([SIOAppDelegate class]));
-    }
-}
+@property (nonatomic, strong, setter = setSearchResultEntry:) SIOSearchResult *searchResultEntry;
+
++ (CGFloat) cellHeightForSearchResult:(SIOSearchResult *)entry;
+
+@end

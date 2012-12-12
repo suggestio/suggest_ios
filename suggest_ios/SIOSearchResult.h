@@ -1,8 +1,8 @@
 //
-//  main.m
+//  SIOSearchResult.h
 //  suggest_ios
 //
-//  Created by Andrey Yurkevich on 11/14/12.
+//  Created by Andrey Yurkevich on 10/23/12.
 //  Copyright (c) 2012 Suggest.io. All rights reserved.
 //
 
@@ -28,13 +28,16 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
-#import "SIOAppDelegate.h"
+@interface SIOSearchResult : NSObject
 
-int main(int argc, char *argv[])
-{
-    @autoreleasepool {
-        return UIApplicationMain(argc, argv, nil, NSStringFromClass([SIOAppDelegate class]));
-    }
-}
+@property (nonatomic, copy, readonly) NSAttributedString *content;
+@property (nonatomic, copy, readonly) NSAttributedString *title;
+@property (nonatomic, copy, readonly) NSURL *url;
+@property (nonatomic, copy, readonly) NSURL *imageURL;
+
+- (id) initWithJSON:(NSDictionary *)JSONDict;
+- (NSString *) description;
+
+@end
