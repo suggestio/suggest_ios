@@ -36,9 +36,9 @@
 
 
 /**
- * AMSearchBarDataSource protocol defines the methods that a datasource object should implement. Basically,
+ * SIOSearchBarDataSource protocol defines the methods that a datasource object should implement. Basically,
  * the delegate object is responsible of performing HTTP request to the Suggest.io server, passing the target
- * domain and a substring to search in the request and returing an array of AMSearchResult objects that it reads
+ * domain and a substring to search in the request and returing an array of SIOSearchResult objects that it reads
  * in the HTTP response.
  *
  */
@@ -56,7 +56,7 @@ typedef void (^SearchCompletionBlock)(NSArray *items, NSError *error);
  * Performs the HTTP request to the Suggest.io server, calling the SearchCompletionBlock when the results are received.
  *
  * The Suggest.io server returns results serialized into a JSON array. After the result is received, the datasource
- * object needs to parse the response and create an array of AMSearchResult objects, passing it to the completionBlock.
+ * object needs to parse the response and create an array of SIOSearchResult objects, passing it to the completionBlock.
  *
  * @param searchSubsting The substring to search for
  * @param searchDomain The domain name where the search should be performed
@@ -81,9 +81,9 @@ typedef void (^SearchCompletionBlock)(NSArray *items, NSError *error);
 
 
 /**
- * AMSearchBarDelegate is the protocol for the AMSearchBar's delegate object. The delegate is responsible
- * for providing the domain name for the search. It is also notified when the search is srarted/cancelled/completed
- * receiving the search results as an array of AMSearchResult objects.
+ * Protocol for the SIOSearchBar's delegate object. The delegate is responsible
+ * for providing the domain name for the search. It also receives notifications when the search is
+ * srarted/cancelled/completed receiving the search results as an array of SIOSearchResult objects.
  */
 @protocol SIOSearchBarDelegate <NSObject>
 @required
@@ -99,7 +99,7 @@ typedef void (^SearchCompletionBlock)(NSArray *items, NSError *error);
 /**
  * Notifies the delegate thet the search bar has been dismissed.
  *
- * @param searchBar The instance of AMSearchBar that has been dismissed
+ * @param searchBar The instance of SIOSearchBar that has been dismissed
  *
  */
 - (void)searchBarWasDismissed:(SIOSearchBar *)searchBar;

@@ -1,5 +1,5 @@
 //
-//  AMSearchBar.m
+//  SIOSearchBar.m
 //  suggest_ios
 //
 //  Created by Andrey Yurkevich on 11/06/12.
