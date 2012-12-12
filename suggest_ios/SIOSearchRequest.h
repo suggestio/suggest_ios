@@ -41,7 +41,7 @@
 + (id) sharedSearchRequest;
 - (void) cancelAllSearches;
 
-// AMSearchBarDataSource methods
+// SIOSearchBarDataSource methods
 - (void) searchForSubstring:(NSString *)searchSubstring inDomain:(NSString *)searchDomain onCompletion:(SearchCompletionBlock)completionBlock;
 - (void) cancelAllSearchesInDomain:(NSString *)searchDomain;
 

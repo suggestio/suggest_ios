@@ -72,7 +72,7 @@
 
 
 #pragma mark -
-#pragma mark AMSearchBarDataSource methods
+#pragma mark SIOSearchBarDataSource methods
 
 - (void) searchForSubstring:(NSString *)searchSubstring inDomain:(NSString *)searchDomain onCompletion:(SearchCompletionBlock)completionBlock
 {
