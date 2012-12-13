@@ -63,6 +63,7 @@
     self.tableView.dataSource = self;
     self.searchBar.delegate = self;
     self.searchBar.datasource = [SIOSearchRequest sharedSearchRequest];
+
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardDidShow:)
                                                  name:UIKeyboardDidShowNotification
@@ -85,6 +86,18 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    // TODO: fix the XIB for proper tableView size/position on 3.5"/3.5"@2x/4"@2x
+    //       to avoid setting its frame with code
+    CGRect tableRect = self.view.frame;
+    tableRect.size.height -= self.searchBar.frame.size.height;
+    tableRect.origin.y = self.searchBar.frame.size.height;
+    self.tableView.frame = tableRect;
 }
 
 
@@ -194,6 +207,11 @@ static NSOperationQueue *cellsQueue = nil;
 - (void) searchBarWasDismissed:(SIOSearchBar *)searchBar
 {
     NSLog(@"SIOSeachBar was dismissed");
+    self.searchBar.searchField.text = @"";
+    [self.searchBar.searchField resignFirstResponder];
+    [self.searchBar.datasource cancelAllSearchesInDomain:@"aversimage.ru"];
+    self.searchResults = [NSMutableArray array];
+    [self.tableView reloadData];
 }
 
 - (void) searchBar:(SIOSearchBar *)searchBar didStartSearching:(NSString *)searchSubstring
