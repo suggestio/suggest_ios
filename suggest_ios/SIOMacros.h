@@ -32,18 +32,30 @@
 #import <Foundation/Foundation.h>
 
 #ifdef DEBUG
-#   define DLog(fmt, ...) {NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);}
-#   define ELog(err) {if(err) DLog(@"%@", err)}
+#   ifndef DLog
+#       define DLog(fmt, ...) {NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);}
+#   endif
+#   ifndef ELog
+#       define ELog(err) {if(err) DLog(@"%@", err)}
+#   endif
 #else
-#   define DLog(...)
-#   define ELog(err)
+#   ifndef DLog
+#       define DLog(...)
+#   endif
+#   ifndef ELog
+#       define ELog(err)
+#   endif
 #endif
 
 // ALog always displays output regardless of the DEBUG setting
 #ifdef DEBUG
-#   define ALog(fmt, ...) { NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);};
+#   ifndef ALog
+#       define ALog(fmt, ...) { NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);};
+#   endif
 #else
-#   define ALog(fmt, ...) { NSLog((@"%s " fmt, __PRETTY_FUNCTION__, ##__VA_ARGS__);};
+#   ifndef ALog
+#       define ALog(fmt, ...) { NSLog((@"%s " fmt, __PRETTY_FUNCTION__, ##__VA_ARGS__);};
+#   endif
 #endif
 
 #define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)

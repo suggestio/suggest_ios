@@ -146,10 +146,7 @@ static const CGFloat kBGInsetRight  =  1.0f;
     self.btnPressedImage = [UIImage pressedButtonImageWithText:NSLocalizedString(@"Cancel", @"")
                                                           font:[UIFont fontWithName:SIO_DEFAULT_FONT_NAME
                                                                                size:16.0]
-                                                     textColor:[UIColor colorWithRed:110.0/255.0
-                                                                               green:153.0/255.0
-                                                                                blue:200.0/255.0
-                                                                               alpha:1.0]
+                                                     textColor:[UIColor colorWithHTMLColor:0x99FFFFFF]
                                                      tintColor:buttonTintColor];
 
     [self.cancelButton setImage:self.btnPressedImage
