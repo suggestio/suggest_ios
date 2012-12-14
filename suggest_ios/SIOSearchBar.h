@@ -97,26 +97,6 @@ typedef void (^SearchCompletionBlock)(NSArray *items, NSError *error);
 - (NSString *)searchBarQueryDomain:(SIOSearchBar *)searchBar;
 
 /**
- * Notifies the delegate thet the search bar has been dismissed.
- *
- * @param searchBar The instance of SIOSearchBar that has been dismissed
- *
- */
-- (void)searchBarWasDismissed:(SIOSearchBar *)searchBar;
-
-@optional
-/**
- * Called when the search is started
- *
- * @param searchBar The instance of SIOSearchBar that has initiated the search
- * @param searchSubstring The search substring
- *
- * @see searchBarDidCancelSearch:
- * @see searchBar:didEndSearching:returningResults:
- */
-- (void)searchBar:(SIOSearchBar *)searchBar didStartSearching:(NSString *)searchSubstring;
-
-/**
  * Called when the search is finished
  *
  * @param searchBar The instance of SIOSearchBar that has initiated the search
@@ -127,6 +107,26 @@ typedef void (^SearchCompletionBlock)(NSArray *items, NSError *error);
  * @see searchBarDidCancelSearch:
  */
 - (void)searchBar:(SIOSearchBar *)searchBar didEndSearching:(NSString *)searchSubstring returningResults:(NSArray *)searchResults;
+
+@optional
+/**
+ * Notifies the delegate thet the search bar has been dismissed.
+ *
+ * @param searchBar The instance of SIOSearchBar that has been dismissed
+ *
+ */
+- (void)searchBarWasDismissed:(SIOSearchBar *)searchBar;
+
+/**
+ * Called when the search is started
+ *
+ * @param searchBar The instance of SIOSearchBar that has initiated the search
+ * @param searchSubstring The search substring
+ *
+ * @see searchBarDidCancelSearch:
+ * @see searchBar:didEndSearching:returningResults:
+ */
+- (void)searchBar:(SIOSearchBar *)searchBar didStartSearching:(NSString *)searchSubstring;
 
 /**
  * Called when the search is cancelled
