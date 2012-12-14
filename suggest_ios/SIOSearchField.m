@@ -44,7 +44,7 @@ static const int kMarginY = 0;
 
         self.font = [UIFont systemFontOfSize:15];
         self.keyboardAppearance = UIKeyboardAppearanceDefault;
-        self.keyboardType = UIKeyboardTypeASCIICapable;
+        self.keyboardType = UIKeyboardTypeDefault;
         self.returnKeyType = UIReturnKeySearch;
         self.clearButtonMode = UITextFieldViewModeAlways;
         self.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
