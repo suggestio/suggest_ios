@@ -101,6 +101,11 @@
 }
 
 
+- (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+{
+    return UIInterfaceOrientationIsPortrait(toInterfaceOrientation);
+}
+
 #pragma mark -
 #pragma mark UITableView delegate / datasource methods
 
