@@ -29,7 +29,7 @@ Usage
 
 In order to add Suggest.io live search to your project you will need the following:
 
-1. Creare an instance of SIOSearchBar
+** Creare an instance of SIOSearchBar **
 
 You can create an instance of SIOSearchBar in code add it as a subview to a UIView by calling
 ```objective-c
@@ -38,7 +38,7 @@ SIOSearchBar *sb = [[SIOSearchBar alloc] initWithStyle:searchBarStyle rect:searc
 ```
 or by adding a custom view to your view's XIB and setting its class to SIOSearchBar in the Interface Builder.
 
-2. Set the delegate and datasource of the SIOSearchBar.
+** Set the delegate and datasource of the SIOSearchBar **
 
 See the SIOSearchBar.h header for details on the SIOSearchBarDelegate and SIOSearchBarDataSource protocols definition.
 
