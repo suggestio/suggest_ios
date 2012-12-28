@@ -54,6 +54,9 @@
 
 -(NSAttributedString *) attributedStringFromMarkup:(NSString*)strHTML
 {
+  if (! strHTML)
+    return nil;
+
     NSMutableAttributedString* aString = [[NSMutableAttributedString alloc] initWithString:@""];
     NSRegularExpression* regex = [[NSRegularExpression alloc] initWithPattern:@"(.*?)(<[^>]+>|\\Z)"
                                                                       options:NSRegularExpressionCaseInsensitive|NSRegularExpressionDotMatchesLineSeparators
